@@ -5,7 +5,9 @@
     export let positions = []
     const data = positions
         .filter(p => p.attributes.totalDistance)
-        .sort((a, b) => b.attributes.totalDistance - a.attributes.totalDistance)
+        .sort((a, b) =>
+            (b.attributes.odometer || b.attributes.totalDistance) -
+            (a.attributes.odometer || a.attributes.totalDistance))
         .slice(0, 20)
 
     const options = {
@@ -15,7 +17,7 @@
         },
         series: [{
             name: 'Odómetro',
-            data: data.map(p => Math.round(p.attributes.totalDistance/1000))
+            data: data.map(p => Math.round((p.attributes.odometer || p.attributes.totalDistance)/1000))
         }],
         chart: {
             type: 'bar',
