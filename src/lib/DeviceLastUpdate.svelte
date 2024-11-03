@@ -47,4 +47,4 @@
     onMount(() => new ApexCharts(div, options).render())
 </script>
 
-<div bind:this={div}></div>
+<div bind:this={div} class="rounded-lg shadow-md bg-gray-100"></div>

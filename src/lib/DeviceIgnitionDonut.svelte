@@ -13,7 +13,7 @@
     const options = {
         series: Object.values(stateCounts),
         title: {
-            text: 'Estados',
+            text: 'Movimento',
             align: 'center'
         },
         chart: {
@@ -60,5 +60,5 @@
     let div
 </script>
 
-<div bind:this={div} class="flex justify-center items-center">
+<div bind:this={div} class="flex justify-center items-center rounded-lg shadow-md bg-gray-100">
 </div>

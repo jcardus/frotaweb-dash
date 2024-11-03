@@ -60,5 +60,5 @@
     let div
 </script>
 
-<div bind:this={div} class="flex justify-center items-center">
+<div bind:this={div} class="flex justify-center items-center rounded-lg shadow-md bg-gray-100">
 </div>
