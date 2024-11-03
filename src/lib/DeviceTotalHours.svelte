@@ -19,8 +19,7 @@
             data: data.map(p => Math.round(p.attributes.hours/1000/3600))
         }],
         chart: {
-            type: 'bar',
-            height: '100%'
+            type: 'bar'
         },
         plotOptions: {
             bar: {

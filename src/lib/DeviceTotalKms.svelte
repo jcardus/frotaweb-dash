@@ -20,8 +20,7 @@
             data: data.map(p => Math.round((p.attributes.odometer || p.attributes.totalDistance)/1000))
         }],
         chart: {
-            type: 'bar',
-            height: '100%'
+            type: 'bar'
         },
         plotOptions: {
             bar: {

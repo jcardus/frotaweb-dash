@@ -14,7 +14,7 @@
             data:[[new Date(p.fixTime).getTime(), p.attributes.batteryLevel || 0]]
         })),
         chart: {
-            height: '100%',
+
             type: 'scatter',
             zoom: {
                 type: 'xy',
