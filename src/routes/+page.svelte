@@ -1,5 +1,5 @@
 <script>
-    Apex.colors = ["#16a34a", "#dc2626", "#ca8a04",
+    Apex.colors = ["#16a34a", "#ef4444", "#ca8a04",
         "#FF4560", // Red
         "#775DD0", // Purple
         "#3F51B5", // Indigo
