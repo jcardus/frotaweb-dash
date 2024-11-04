@@ -13,7 +13,7 @@
     const options = {
         series: Object.values(stateCounts),
         title: {
-            text: 'Estados',
+            text: 'Status',
             align: 'center'
         },
         chart: {

@@ -11,11 +11,11 @@
 
     const options = {
         title: {
-            text: 'Horómetro (Horas)',
+            text: 'Horímetro (Horas)',
             align: 'center'
         },
         series: [{
-            name: 'Horómetro',
+            name: 'Horímetro',
             data: data.map(p => Math.round(p.attributes.hours/1000/3600))
         }],
         chart: {

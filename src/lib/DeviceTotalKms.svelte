@@ -12,11 +12,11 @@
 
     const options = {
         title: {
-            text: 'Odómetro (Kms)',
+            text: 'Hodômetro (Kms)',
             align: 'center'
         },
         series: [{
-            name: 'Odómetro',
+            name: 'Hodômetro',
             data: data.map(p => Math.round((p.attributes.odometer || p.attributes.totalDistance)/1000))
         }],
         chart: {
