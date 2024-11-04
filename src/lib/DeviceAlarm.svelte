@@ -3,10 +3,13 @@
     import ApexCharts from 'apexcharts';
 
     export let positions = []
-    let stateCounts = {other: 0, alarm: 0};
+    let stateCounts = {Normal: 0};
     positions.forEach(position => {
-        if (position.attributes.alarm) stateCounts.alarm++;
-        else stateCounts.other++;
+        if (position.attributes.alarm) {
+            stateCounts[position.attributes.alarm] |= 0;
+            stateCounts[position.attributes.alarm]++
+        }
+        else stateCounts.Normal++;
     });
     // Initialize chart options for the donut chart
     const options = {
@@ -21,7 +24,7 @@
         legend: {
             position: 'bottom'
         },
-        labels: ['Normal', 'Em alarme'],
+        labels: Object.keys(stateCounts),
         plotOptions: {
             pie: {
                 donut: {
