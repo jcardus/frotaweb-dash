@@ -3,7 +3,7 @@
     import ApexCharts from 'apexcharts';
 
     export let positions = []
-    let stateCounts = {alarm: 0, other: 0};
+    let stateCounts = {other: 0, alarm: 0};
     positions.forEach(position => {
         if (position.attributes.alarm) stateCounts.alarm++;
         else stateCounts.other++;
@@ -21,7 +21,7 @@
         legend: {
             position: 'bottom'
         },
-        labels: ['Em alarme', 'Normal'],
+        labels: ['Normal', 'Em alarme'],
         plotOptions: {
             pie: {
                 donut: {

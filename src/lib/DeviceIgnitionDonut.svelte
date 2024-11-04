@@ -3,7 +3,7 @@
     import ApexCharts from 'apexcharts';
 
     export let positions = []
-    let stateCounts = {moving: 0, ralenti: 0, stopped: 0};
+    let stateCounts = {moving: 0, stopped: 0, ralenti: 0};
     positions.forEach(position => {
         if (position.attributes.ignition && !position.speed) stateCounts.ralenti++;
         else if (position.attributes.motion) stateCounts.moving++;
@@ -22,7 +22,7 @@
         legend: {
             position: 'bottom'
         },
-        labels: ['Em movimento', 'Ralenti', 'Desligado'],
+        labels: ['Em movimento', 'Desligado', 'Ralenti'],
         plotOptions: {
             pie: {
                 donut: {
