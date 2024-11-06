@@ -3,17 +3,22 @@
     import ApexCharts from 'apexcharts';
 
     export let positions = []
+    export let devices = []
+
     let stateCounts = {Normal: 0};
     positions.forEach(position => {
         if (position.attributes.alarm) {
-            stateCounts[position.attributes.alarm] |= 0;
-            stateCounts[position.attributes.alarm]++
+            stateCounts[position.attributes.alarm] ||= [];
+            stateCounts[position.attributes.alarm].push(position.deviceId)
         }
-        else stateCounts.Normal++;
+        else {
+            stateCounts.Normal ||= []
+            stateCounts.Normal.push(position.deviceId)
+        }
     });
     // Initialize chart options for the donut chart
     const options = {
-        series: Object.values(stateCounts),
+        series: Object.values(stateCounts).map(v => v.length),
         title: {
             text: 'Alarmes',
             align: 'center'
@@ -37,9 +42,6 @@
                             fontWeight: 600,
                             color: undefined,
                             offsetY: -10,
-                            formatter: function (val) {
-                                return val
-                            }
                         },
                         value: {
                             show: true,
@@ -52,6 +54,19 @@
                                 return val
                             }
                         }
+                    }
+                }
+            }
+        },
+        tooltip: {
+            y: {
+                formatter: (_, b) => {
+                    const key = Object.keys(stateCounts)[b.seriesIndex]
+                    return stateCounts[key].map(id => devices.find(d => d.id === id).name).join('<br>')
+                },
+                title: {
+                    formatter: (category) => {
+                        return `<i>${category} (${stateCounts[category].length})</i>`
                     }
                 }
             }
