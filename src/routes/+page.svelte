@@ -1,4 +1,7 @@
 <script>
+    import DeviceStatesGroupedDonut from "$lib/DeviceStatesGroupedDonut.svelte";
+
+    // eslint-disable-next-line no-undef
     Apex.colors = ["#16a34a", "#ef4444", "#ca8a04",
         "#FF4560", // Red
         "#775DD0", // Purple
@@ -22,14 +25,14 @@
     import DeviceTotalKms from "$lib/DeviceTotalKms.svelte";
     import DeviceLastUpdate from "$lib/DeviceLastUpdate.svelte";
     import DeviceTotalHours from "$lib/DeviceTotalHours.svelte";
-    import DeviceIgnitionDonut from "$lib/DeviceIgnitionDonut.svelte";
     import DeviceAlarm from "$lib/DeviceAlarm.svelte";
     let {data} = $props()
     let {devices, positions} = data
 </script>
 <div class="grid grid-cols-3 gap-5 p-5" >
     <DeviceStatesDonut {devices}></DeviceStatesDonut>
-    <DeviceIgnitionDonut {positions} {devices}></DeviceIgnitionDonut>
+    <!--DeviceIgnitionDonut {positions} {devices}></DeviceIgnitionDonut-->
+    <DeviceStatesGroupedDonut {devices}></DeviceStatesGroupedDonut>
     <DeviceAlarm {positions} {devices}></DeviceAlarm>
     <DeviceTotalKms {positions} {devices}></DeviceTotalKms>
     <DeviceTotalHours {positions} {devices}></DeviceTotalHours>
