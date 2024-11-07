@@ -3,19 +3,32 @@
     import ApexCharts from 'apexcharts';
 
     export let devices = []
-    let stateCounts = {Online: 0, '12 horas': 0, '24 horas': 0, '36 horas': 0, '48 horas': 0, '+ 48 horas': 0};
+    let stateCounts = {Online: [], '12 horas': [], '24 horas': [], '36 horas': [], '48 horas': [], '+ 48 horas': []};
     devices.forEach(device => {
         const lastUpdate = new Date().getTime() - new Date(device.lastUpdate).getTime()
-        if (device.status === 'online') stateCounts.Online++;
-        else if (lastUpdate < 12*60*1000) stateCounts['12 horas']++
-        else if (lastUpdate < 24*60*1000) stateCounts['24 horas']++
-        else if (lastUpdate < 36*60*1000) stateCounts['36 horas']++
-        else if (lastUpdate < 48*60*1000) stateCounts['48 horas']++
-        else stateCounts['+ 48 horas']++
+        if (device.status === 'online') stateCounts.Online.push(device.name)
+        else if (lastUpdate < 12*60*1000) stateCounts['12 horas'].push(device.name)
+        else if (lastUpdate < 24*60*1000) stateCounts['24 horas'].push(device.name)
+        else if (lastUpdate < 36*60*1000) stateCounts['36 horas'].push(device.name)
+        else if (lastUpdate < 48*60*1000) stateCounts['48 horas'].push(device.name)
+        else stateCounts['+ 48 horas'].push(device.name)
     });
     // Initialize chart options for the donut chart
     const options = {
-        series: Object.values(stateCounts),
+        tooltip: {
+            y: {
+                formatter: (_, b) => {
+                    const key = Object.keys(stateCounts)[b.seriesIndex]
+                    return stateCounts[key].join('<br>')
+                },
+                title: {
+                    formatter: (category) => {
+                        return `<i>${category} (${stateCounts[category].length})</i>`
+                    }
+                }
+            }
+        },
+        series: Object.values(stateCounts).map(v => v.length),
         title: {
             text: 'Última comunicação',
             align: 'center'
