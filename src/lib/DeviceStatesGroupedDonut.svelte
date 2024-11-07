@@ -7,10 +7,10 @@
     devices.forEach(device => {
         const lastUpdate = new Date().getTime() - new Date(device.lastUpdate).getTime()
         if (device.status === 'online') stateCounts.Online.push(device.name)
-        else if (lastUpdate < 12*60*1000) stateCounts['12 horas'].push(device.name)
-        else if (lastUpdate < 24*60*1000) stateCounts['24 horas'].push(device.name)
-        else if (lastUpdate < 36*60*1000) stateCounts['36 horas'].push(device.name)
-        else if (lastUpdate < 48*60*1000) stateCounts['48 horas'].push(device.name)
+        else if (lastUpdate < 12*3600*1000) stateCounts['12 horas'].push(device.name)
+        else if (lastUpdate < 24*3600*1000) stateCounts['24 horas'].push(device.name)
+        else if (lastUpdate < 36*3600*1000) stateCounts['36 horas'].push(device.name)
+        else if (lastUpdate < 48*3600*1000) stateCounts['48 horas'].push(device.name)
         else stateCounts['+ 48 horas'].push(device.name)
     });
     // Initialize chart options for the donut chart
