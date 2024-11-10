@@ -29,7 +29,7 @@
     let {data} = $props()
     let {devices, positions} = data
 </script>
-<div class="grid grid-cols-3 gap-5 p-5 h-full" >
+<div class="grid grid-cols-3 gap-5 p-5 h-lvh" >
     <DeviceStatesGroupedDonut {devices}></DeviceStatesGroupedDonut>
     <DeviceIgnitionDonut {positions} {devices}></DeviceIgnitionDonut>
     <DeviceAlarm {positions} {devices}></DeviceAlarm>
