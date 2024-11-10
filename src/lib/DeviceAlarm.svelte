@@ -77,5 +77,7 @@
     let div
 </script>
 
-<div bind:this={div} class="flex justify-center items-center rounded-lg shadow-md bg-gray-100">
+<div class="h-full shadow-md bg-gray-200">
+<div bind:this={div} >
+</div>
 </div>

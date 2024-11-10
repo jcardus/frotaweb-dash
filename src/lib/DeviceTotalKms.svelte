@@ -27,11 +27,33 @@
             bar: {
                 borderRadius: 4,
                 borderRadiusApplication: 'end',
+                barHeight: '100%',
+                distributed: true,
                 horizontal: true,
             }
         },
+        legend: {
+            show: false // Hide the legend at the bottom
+        },
+        stroke: {
+            width: 1,
+            colors: ['#000']
+        },
         dataLabels: {
-            enabled: false
+            enabled: true,
+            textAnchor: 'start',
+            formatter: function (val, opt) {
+                return opt.w.globals.labels[opt.dataPointIndex] + ":  " + val
+            },
+            offsetX: 0,
+            dropShadow: {
+                enabled: true
+            }
+        },
+        yaxis: {
+            labels: {
+                show: false
+            }
         },
         xaxis: {
             categories: data.map(p => devices.find(d => d.id===p.deviceId).name)
@@ -41,6 +63,6 @@
     onMount(() => new ApexCharts(div, options).render())
 </script>
 
-<div class="rounded-lg shadow-md bg-gray-100">
+<div class="rounded-lg shadow-md bg-gray-200">
     <div bind:this={div}></div>
 </div>

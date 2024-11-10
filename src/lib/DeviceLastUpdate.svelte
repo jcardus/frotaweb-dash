@@ -46,6 +46,6 @@
     let div
     onMount(() => new ApexCharts(div, options).render())
 </script>
-<div class="rounded-lg shadow-md bg-gray-100">
+<div class="rounded-lg shadow-md bg-gray-200">
     <div bind:this={div} ></div>
 </div>
