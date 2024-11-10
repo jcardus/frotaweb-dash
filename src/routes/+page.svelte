@@ -21,9 +21,8 @@
         "#C70039", // Crimson
         "#900C3F"]  // Dark Red
 
-    import DeviceTotalKms from "$lib/DeviceTotalKms.svelte";
+    import DeviceTotals from "$lib/DeviceTotals.svelte";
     import DeviceLastUpdate from "$lib/DeviceLastUpdate.svelte";
-    import DeviceTotalHours from "$lib/DeviceTotalHours.svelte";
     import DeviceAlarm from "$lib/DeviceAlarm.svelte";
     import DeviceIgnitionDonut from "$lib/DeviceIgnitionDonut.svelte";
     let {data} = $props()
@@ -33,7 +32,7 @@
     <DeviceStatesGroupedDonut {devices}></DeviceStatesGroupedDonut>
     <DeviceIgnitionDonut {positions} {devices}></DeviceIgnitionDonut>
     <DeviceAlarm {positions} {devices}></DeviceAlarm>
-    <DeviceTotalKms {positions} {devices}></DeviceTotalKms>
-    <DeviceTotalHours {positions} {devices}></DeviceTotalHours>
-    <DeviceLastUpdate {positions} {devices}></DeviceLastUpdate>
+    <DeviceTotals {positions} {devices} type="odometer" title="Hodômetro (Kms)"></DeviceTotals>
+    <DeviceTotals {positions} {devices} type="hours" title="Horímetro (Horas)"></DeviceTotals>
+    <DeviceLastUpdate {positions} {devices} ></DeviceLastUpdate>
 </div>

@@ -3,25 +3,29 @@
     import {onMount} from "svelte";
     export let devices = []
     export let positions = []
+    export let type
+    const getValue = (p) => type === 'odometer' ?
+        (p.attributes.odometer || p.attributes.totalDistance) :
+        Math.round(p.attributes.hours/1000/3600)
+    export let title
+
     const data = positions
-        .filter(p => p.attributes.totalDistance)
-        .sort((a, b) =>
-            (b.attributes.odometer || b.attributes.totalDistance) -
-            (a.attributes.odometer || a.attributes.totalDistance))
-        .slice(0, 20)
+        .filter(p => getValue(p))
+        .sort((a, b) => getValue(b) - getValue(a))
+        // .slice(0, 20)
 
     const options = {
         title: {
-            text: 'Hodômetro (Kms)',
+            text: title,
             align: 'center'
         },
         series: [{
-            name: 'Hodômetro',
-            data: data.map(p => Math.round((p.attributes.odometer || p.attributes.totalDistance)/1000))
+            data: data.map(p => getValue(p))
         }],
         chart: {
             type: 'bar',
-            height: '100%'
+            height: '100%',
+            width: '100%'
         },
         plotOptions: {
             bar: {
@@ -60,9 +64,14 @@
         }
     };
     let div
-    onMount(() => new ApexCharts(div, options).render())
+    onMount(() => {
+            const chart = new ApexCharts(div, options)
+            chart.render()
+            setTimeout(() => chart.updateOptions({}, true), 1)
+        }
+    )
 </script>
 
-<div class="rounded-lg shadow-md bg-gray-200">
+<div class="rounded-lg shadow-md bg-gray-200 h-full-max">
     <div bind:this={div}></div>
 </div>
