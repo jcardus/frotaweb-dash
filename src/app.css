@@ -7,3 +7,7 @@
     max-width: 200px;
     transform: translateY(100%) !important;
 }
+
+body {
+    height: 100%
+}
