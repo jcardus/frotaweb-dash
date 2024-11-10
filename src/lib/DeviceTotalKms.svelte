@@ -20,7 +20,8 @@
             data: data.map(p => Math.round((p.attributes.odometer || p.attributes.totalDistance)/1000))
         }],
         chart: {
-            type: 'bar'
+            type: 'bar',
+            height: '100%'
         },
         plotOptions: {
             bar: {
@@ -40,4 +41,6 @@
     onMount(() => new ApexCharts(div, options).render())
 </script>
 
-<div bind:this={div} class="rounded-lg shadow-md bg-gray-100"></div>
+<div class="rounded-lg shadow-md bg-gray-100">
+    <div bind:this={div}></div>
+</div>

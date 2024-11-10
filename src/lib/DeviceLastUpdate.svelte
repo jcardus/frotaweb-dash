@@ -14,11 +14,11 @@
             data:[[new Date(p.fixTime).getTime(), p.attributes.batteryLevel || 0]]
         })),
         chart: {
-
             type: 'scatter',
             zoom: {
                 type: 'xy',
             },
+            height: '100%'
         },
 
         legend: {show: false},
@@ -46,5 +46,6 @@
     let div
     onMount(() => new ApexCharts(div, options).render())
 </script>
-
-<div bind:this={div} class="rounded-lg shadow-md bg-gray-100"></div>
+<div class="rounded-lg shadow-md bg-gray-100">
+    <div bind:this={div} ></div>
+</div>

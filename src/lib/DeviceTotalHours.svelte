@@ -19,7 +19,8 @@
             data: data.map(p => Math.round(p.attributes.hours/1000/3600))
         }],
         chart: {
-            type: 'bar'
+            type: 'bar',
+            height: '100%'
         },
         plotOptions: {
             bar: {
@@ -38,5 +39,6 @@
     let div
     onMount(() => new ApexCharts(div, options).render())
 </script>
-
-<div bind:this={div} class="rounded-lg shadow-md bg-gray-100"></div>
+<div class="rounded-lg shadow-md bg-gray-100">
+    <div bind:this={div}></div>
+</div>
