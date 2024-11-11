@@ -5,7 +5,7 @@
     export let positions = []
     export let type
     const getValue = (p) => type === 'odometer' ?
-        (p.attributes.odometer || p.attributes.totalDistance) :
+        Math.round((p.attributes.odometer || p.attributes.totalDistance)/1000) :
         Math.round(p.attributes.hours/1000/3600)
     export let title
 
