@@ -12,7 +12,7 @@
     const data = positions
         .filter(p => getValue(p))
         .sort((a, b) => getValue(b) - getValue(a))
-        // .slice(0, 20)
+        .slice(0, 20)
 
     const options = {
         title: {
