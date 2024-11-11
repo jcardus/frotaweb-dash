@@ -20,6 +20,7 @@
             align: 'center'
         },
         series: [{
+            name: title,
             data: data.map(p => getValue(p))
         }],
         chart: {
