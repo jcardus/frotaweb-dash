@@ -21,7 +21,7 @@
             height: 250
         },
         legend: {
-            position: 'bottom'
+            position: 'right'
         },
         labels: ['Em movimento', 'Desligado', 'Ralenti'],
         plotOptions: {

@@ -38,7 +38,7 @@
             height: 250
         },
         legend: {
-            position: 'bottom'
+            position: 'right'
         },
         labels: Object.keys(stateCounts),
         plotOptions: {
