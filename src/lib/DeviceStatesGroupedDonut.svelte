@@ -35,7 +35,7 @@
         },
         chart: {
             type: 'donut',
-            height: 300
+            height: 250
         },
         legend: {
             position: 'bottom'
