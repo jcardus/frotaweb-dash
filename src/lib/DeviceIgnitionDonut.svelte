@@ -1,7 +1,7 @@
 <script>
     import { onMount } from 'svelte';
     import ApexCharts from 'apexcharts';
-
+    import {t} from '$lib/i18n'
     export let positions = []
     let stateCounts = {moving: 0, stopped: 0, ralenti: 0};
     positions.forEach(position => {
@@ -13,7 +13,7 @@
     const options = {
         series: Object.values(stateCounts),
         title: {
-            text: 'Movimento',
+            text: t('Movimento'),
             align: 'center'
         },
         chart: {
