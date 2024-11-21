@@ -3,10 +3,11 @@
     import {onMount} from "svelte";
     export let devices = []
     export let positions = []
+    import {t} from '$lib/i18n'
 
     var options = {
         title: {
-            text: 'Ultima posição / nível de bateria',
+            text: t('Ultima posição / nível de bateria'),
             align: 'left'
         },
         series: positions.filter(p => new Date(p.fixTime).getFullYear()>2000).map(p => ({
