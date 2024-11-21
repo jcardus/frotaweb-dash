@@ -1,6 +1,7 @@
 <script>
     import { onMount } from 'svelte';
     import ApexCharts from 'apexcharts';
+    import { t } from "$lib/i18n";
 
     export let devices = []
     let stateCounts = {Online: [], '12 horas': [], '24 horas': [], '36 horas': [], '48 horas': [], '+ 48 horas': []};
@@ -30,7 +31,7 @@
         },
         series: Object.values(stateCounts).map(v => v.length),
         title: {
-            text: 'Última comunicação',
+            text: t('Última comunicação'),
             align: 'center'
         },
         chart: {
