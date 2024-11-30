@@ -1,5 +1,9 @@
 export const ssr = false
 export const load = async (event) => {
+    return {promise: _load(event)}
+};
+
+export const _load = async (event) => {
     let devices, positions
     let response = await event.fetch('/api/devices');
     if (response.ok) {
@@ -12,4 +16,3 @@ export const load = async (event) => {
     }
     return {devices, positions}
 };
-

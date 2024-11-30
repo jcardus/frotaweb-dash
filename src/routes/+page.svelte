@@ -1,6 +1,5 @@
 <script>
     import DeviceStatesGroupedDonut from "$lib/DeviceStatesGroupedDonut.svelte";
-    import { navigating } from '$app/stores';
     import palette from '$lib/palette.js';
     const primary = palette(undefined, undefined).primary.main;
     const secondary = palette(undefined, undefined).secondary.main;
@@ -30,16 +29,15 @@
     import DeviceAlarm from "$lib/DeviceAlarm.svelte";
     import DeviceIgnitionDonut from "$lib/DeviceIgnitionDonut.svelte";
     let {data} = $props()
-    let {devices, positions} = data
 
 </script>
-    {#if $navigating}
+    {#await data.promise}
         <div class="main">
             <div class="loader" >
                 <div style="border-color: {primary} transparent transparent transparent;"></div>
             </div>
         </div>
-    {:else}
+    {:then {devices, positions}}
         <div class="grid grid-cols-3 gap-3 p-3 h-lvh" >
             <DeviceStatesGroupedDonut {devices}></DeviceStatesGroupedDonut>
             <DeviceIgnitionDonut {positions} {devices}></DeviceIgnitionDonut>
@@ -48,7 +46,7 @@
             <DeviceTotals {positions} {devices} type="hours" title="Horímetro (Horas)"></DeviceTotals>
             <DeviceLastUpdate {positions} {devices} ></DeviceLastUpdate>
         </div>
-    {/if}
+    {/await}
 
 
 <style>
