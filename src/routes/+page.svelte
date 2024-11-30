@@ -1,8 +1,12 @@
 <script>
     import DeviceStatesGroupedDonut from "$lib/DeviceStatesGroupedDonut.svelte";
+    import { navigating } from '$app/stores';
+    import palette from '$lib/palette.js';
+    const primary = palette(undefined, undefined).primary.main;
+    const secondary = palette(undefined, undefined).secondary.main;
 
     // eslint-disable-next-line no-undef
-    Apex.colors = ["#16a34a", "#ef4444", "#ca8a04",
+    Apex.colors = [secondary, primary, "#ca8a04",
         "#FF4560", // Red
         "#775DD0", // Purple
         "#3F51B5", // Indigo
@@ -27,12 +31,74 @@
     import DeviceIgnitionDonut from "$lib/DeviceIgnitionDonut.svelte";
     let {data} = $props()
     let {devices, positions} = data
+
 </script>
-<div class="grid grid-cols-3 gap-3 p-3 h-lvh" >
-    <DeviceStatesGroupedDonut {devices}></DeviceStatesGroupedDonut>
-    <DeviceIgnitionDonut {positions} {devices}></DeviceIgnitionDonut>
-    <DeviceAlarm {positions} {devices}></DeviceAlarm>
-    <DeviceTotals {positions} {devices} type="odometer" title="Hodômetro (Kms)"></DeviceTotals>
-    <DeviceTotals {positions} {devices} type="hours" title="Horímetro (Horas)"></DeviceTotals>
-    <DeviceLastUpdate {positions} {devices} ></DeviceLastUpdate>
-</div>
+    {#if $navigating}
+        <div class="main">
+            <div class="loader" >
+                <div style="border-color: {primary} transparent transparent transparent;"></div>
+            </div>
+        </div>
+    {:else}
+        <div class="grid grid-cols-3 gap-3 p-3 h-lvh" >
+            <DeviceStatesGroupedDonut {devices}></DeviceStatesGroupedDonut>
+            <DeviceIgnitionDonut {positions} {devices}></DeviceIgnitionDonut>
+            <DeviceAlarm {positions} {devices}></DeviceAlarm>
+            <DeviceTotals {positions} {devices} type="odometer" title="Hodômetro (Kms)"></DeviceTotals>
+            <DeviceTotals {positions} {devices} type="hours" title="Horímetro (Horas)"></DeviceTotals>
+            <DeviceLastUpdate {positions} {devices} ></DeviceLastUpdate>
+        </div>
+    {/if}
+
+
+<style>
+    .main {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        background: #f0f0f0;
+        font-family: Arial, sans-serif;
+    }
+
+    .loader {
+        display: inline-block;
+        width: 80px;
+        height: 80px;
+        position: relative;
+    }
+
+    .loader div {
+        display: block;
+        position: absolute;
+        width: 64px;
+        height: 64px;
+        margin: 8px;
+        border: 8px solid;
+        border-radius: 50%;
+        animation: loader-animation 1.2s linear infinite;
+
+    }
+
+    .loader div:nth-child(1) {
+        animation-delay: -0.45s;
+    }
+
+    .loader div:nth-child(2) {
+        animation-delay: -0.3s;
+    }
+
+    .loader div:nth-child(3) {
+        animation-delay: -0.15s;
+    }
+
+    @keyframes loader-animation {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>
