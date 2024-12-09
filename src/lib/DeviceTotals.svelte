@@ -4,14 +4,18 @@
     export let devices = []
     export let positions = []
     export let type
-    const getValue = (p) => type === 'odometer' ?
-        Math.round((p.attributes.odometer || p.attributes.totalDistance)/1000) :
+    const getValue = (p, d) => type === 'odometer' ?
+        Math.round(
+            (
+                (d && !d.attributes['report.ignoreOdometer'] && p.attributes.odometer)
+                || p.attributes.totalDistance
+            )/1000) :
         Math.round(p.attributes.hours/1000/3600)
     export let title
 
     const data = positions
         .filter(p => getValue(p))
-        .sort((a, b) => getValue(b) - getValue(a))
+        .sort((a, b) => getValue(b, devices.find(d => d.id === b.deviceId)) - getValue(a, devices.find(d => d.id === a.deviceId)))
         .slice(0, 20)
 
     const options = {
@@ -21,7 +25,7 @@
         },
         series: [{
             name: title,
-            data: data.map(p => getValue(p))
+            data: data.map(p => getValue(p, devices.find(d => d.id === p.deviceId)))
         }],
         chart: {
             type: 'bar',
