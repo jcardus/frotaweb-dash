@@ -45,7 +45,7 @@
             <DeviceAlarm {positions} {devices}></DeviceAlarm>
             <DeviceTotals {positions} {devices} type="odometer" title="Hodômetro (Kms)"></DeviceTotals>
             <DeviceTotals {positions} {devices} type="hours" title="Horímetro (Horas)"></DeviceTotals>
-            <Today {positions} {devices} title={t('Atividade últimas 24h')}></Today>
+            <Today {positions} {devices} title={t('Atividade hoje')}></Today>
         </div>
     {/await}
 

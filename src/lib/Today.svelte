@@ -2,6 +2,9 @@
     import ApexCharts from 'apexcharts';
     import {onMount} from "svelte";
     import palette from "$lib/palette.js";
+    const now = new Date();
+    const from = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+    const to = from + 1000 * 60 * 60 * 24
     export let title
     export let devices
     let _devices = devices.slice(0, 20)
@@ -16,7 +19,7 @@
                 color: undefined,
                 fontSize: '24px',
                 fontFamily: undefined
-            }
+            },
         },
         series: [],
         title: {
@@ -29,14 +32,17 @@
         },
         plotOptions: {
             bar: {
+                barHeight: '30%',
                 horizontal: true,
-                rangeBarGroupRows: true
+                rangeBarGroupRows: true,
             }
         },
         fill: {
             type: 'solid'
         },
         xaxis: {
+            min: 0,
+            max: 0,
             type: 'datetime'
         },
         legend: {
@@ -58,20 +64,21 @@
         const chart = new ApexCharts(div, options)
         await chart.render()
         await getTrips()
+        options.xaxis.min = from
+        options.xaxis.max = to
         await chart.updateOptions(options, true, true)
     })
     const getTrips = async () => {
-        const from = new Date().getTime() - 1000 * 60 * 60 * 24
         const response = await fetch(
             `/api/reports/trips?${_devices.map(d => `deviceId=${d.id}`).join('&')
-            }&from=${new Date(from).toISOString()}&to=${new Date().toISOString()}`,
+            }&from=${new Date(from).toISOString()}&to=${new Date(to).toISOString()}`,
             {
                 headers: {Accept: 'application/json'},
             }
         )
         const responseStops = await fetch(
             `/api/reports/stops?${_devices.map(d => `deviceId=${d.id}`).join('&')
-            }&from=${new Date(from).toISOString()}&to=${new Date().toISOString()}`,
+            }&from=${new Date(from).toISOString()}&to=${new Date(to).toISOString()}`,
             {
                 headers: {Accept: 'application/json'},
             }
@@ -99,6 +106,15 @@
                             y: [new Date(s.startTime).getTime(), new Date(s.endTime).getTime()]
                         }
                     ))
+                }))).concat(_devices.map((d) => (
+                {
+                    color: 'gray',
+                    name: 'Future',
+                    data: [
+                        {
+                            x: d.name,
+                            y: [new Date().getTime(), new Date(to).getTime()]
+                        }]
                 })))
         }
     }
