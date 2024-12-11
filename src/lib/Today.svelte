@@ -7,7 +7,7 @@
     const to = from + 1000 * 60 * 60 * 24
     export let title
     export let devices
-    let _devices = devices.slice(0, 20)
+    let _devices = devices.sort((a,b) => a.name.localeCompare(b.name)).slice(0, 40)
     const options = {
         noData: {
             text: 'Loading...',
