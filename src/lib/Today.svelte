@@ -106,15 +106,6 @@
                             y: [new Date(s.startTime).getTime(), new Date(s.endTime).getTime()]
                         }
                     ))
-                }))).concat(_devices.map((d) => (
-                {
-                    color: 'gray',
-                    name: 'Future',
-                    data: [
-                        {
-                            x: d.name,
-                            y: [new Date().getTime(), new Date(to).getTime()]
-                        }]
                 })))
         }
     }
