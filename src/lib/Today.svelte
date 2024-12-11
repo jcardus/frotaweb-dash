@@ -87,17 +87,7 @@
         if (response.ok && responseStops.ok) {
             const trips = await response.json()
             const stops = await responseStops.json()
-            options.series = _devices.map(() => (
-                {
-                    color: palette(undefined, undefined).secondary.main,
-                    name: 'Trips',
-                    data: trips.map(s => (
-                        {
-                            x: _devices.find(d => d.id === s.deviceId).name,
-                            y: [new Date(s.startTime).getTime(), new Date(s.endTime).getTime()]
-                        }
-                    )).sort((a, b) => a.x.localeCompare(b.x))
-                })).concat(_devices.map(() => (
+            options.series = [
                 {
                     color: palette(undefined, undefined).primary.main,
                     name: 'Stops',
@@ -107,7 +97,16 @@
                             y: [new Date(s.startTime).getTime(), new Date(s.endTime).getTime()]
                         }
                     )).sort((a, b) => a.x.localeCompare(b.x))
-                })))
+                },{
+                    color: palette(undefined, undefined).secondary.main,
+                    name: 'Trips',
+                    data: trips.map(s => (
+                        {
+                            x: _devices.find(d => d.id === s.deviceId).name,
+                            y: [new Date(s.startTime).getTime(), new Date(s.endTime).getTime()]
+                        }
+                    )).sort((a, b) => a.x.localeCompare(b.x))
+                }]
         }
     }
 </script>
