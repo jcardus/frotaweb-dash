@@ -107,7 +107,7 @@
                             y: [new Date(s.startTime).getTime(), new Date(s.endTime).getTime()]
                         }
                     ))
-                }))).sort((a, b) => a.data[0].x.localeCompare(b.data[0].x))
+                }))).filter(d => d.data[0]).sort((a, b) => a.data[0].x.localeCompare(b.data[0].x))
         }
     }
 </script>
