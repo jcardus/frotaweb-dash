@@ -3,6 +3,7 @@
     import palette from '$lib/palette.js';
     const primary = palette(undefined, undefined).primary.main;
     const secondary = palette(undefined, undefined).secondary.main;
+    import {t} from '$lib/i18n'
 
     // eslint-disable-next-line no-undef
     Apex.colors = [secondary, primary, "#ca8a04",
@@ -25,9 +26,9 @@
         "#900C3F"]  // Dark Red
 
     import DeviceTotals from "$lib/DeviceTotals.svelte";
-    import DeviceLastUpdate from "$lib/DeviceLastUpdate.svelte";
     import DeviceAlarm from "$lib/DeviceAlarm.svelte";
     import DeviceIgnitionDonut from "$lib/DeviceIgnitionDonut.svelte";
+    import Today from "$lib/Today.svelte";
     let {data} = $props()
 
 </script>
@@ -44,7 +45,7 @@
             <DeviceAlarm {positions} {devices}></DeviceAlarm>
             <DeviceTotals {positions} {devices} type="odometer" title="Hodômetro (Kms)"></DeviceTotals>
             <DeviceTotals {positions} {devices} type="hours" title="Horímetro (Horas)"></DeviceTotals>
-            <DeviceLastUpdate {positions} {devices} ></DeviceLastUpdate>
+            <Today {positions} {devices} title={t('Atividade últimas 24h')}></Today>
         </div>
     {/await}
 
