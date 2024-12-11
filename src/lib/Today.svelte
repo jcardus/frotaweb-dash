@@ -96,7 +96,7 @@
                             x: _devices.find(d => d.id === s.deviceId).name,
                             y: [new Date(s.startTime).getTime(), new Date(s.endTime).getTime()]
                         }
-                    ))
+                    )).sort((a, b) => a.x.localeCompare(b.x))
                 })).concat(_devices.map(() => (
                 {
                     color: palette(undefined, undefined).primary.main,
@@ -106,8 +106,8 @@
                             x: _devices.find(d => d.id === s.deviceId).name,
                             y: [new Date(s.startTime).getTime(), new Date(s.endTime).getTime()]
                         }
-                    ))
-                }))).filter(d => d.data[0]).sort((a, b) => a.data[0].x.localeCompare(b.data[0].x))
+                    )).sort((a, b) => a.x.localeCompare(b.x))
+                })))
         }
     }
 </script>
