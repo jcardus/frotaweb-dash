@@ -33,7 +33,7 @@
         },
         plotOptions: {
             bar: {
-                barHeight: '30%',
+                barHeight: '80%',
                 horizontal: true,
                 rangeBarGroupRows: true,
             }
