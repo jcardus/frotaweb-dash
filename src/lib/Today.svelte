@@ -5,12 +5,13 @@
     const now = new Date();
     const from = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
     const to = from + 1000 * 60 * 60 * 24
+    import {t} from './i18n.js'
     export let title
     export let devices
-    let _devices = devices.sort((a,b) => a.name.localeCompare(b.name)).slice(0, 40)
+    let _devices = devices.sort((a, b) => a.name.localeCompare(b.name)).slice(0, 30)
     const options = {
         noData: {
-            text: 'Loading...',
+            text: t('A Carregar') + '...',
             align: 'center',
             verticalAlign: 'middle',
             offsetX: 0,
@@ -106,7 +107,7 @@
                             y: [new Date(s.startTime).getTime(), new Date(s.endTime).getTime()]
                         }
                     ))
-                })))
+                }))).sort((a, b) => a.data[0].x.localeCompare(b.data[0].x))
         }
     }
 </script>

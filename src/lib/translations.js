@@ -5,6 +5,7 @@ export default {
         'Última comunicação': 'Ultima comunicación',
         'Ultima posição / nível de bateria': 'Ultima posición / nivel de batería',
         'Movimento': 'Movimiento',
-        'Atividade hoje': 'Actividad hoy dia'
+        'Atividade hoje': 'Actividad hoy dia',
+        'A Carregar': 'Cargando'
     },
 };
