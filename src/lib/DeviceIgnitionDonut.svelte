@@ -23,7 +23,7 @@
         legend: {
             position: 'right'
         },
-        labels: ['Em movimento', 'Desligado', 'Ralenti'],
+        labels: ['Em movimento', 'Desligado', 'Ocioso'],
         plotOptions: {
             pie: {
                 donut: {
