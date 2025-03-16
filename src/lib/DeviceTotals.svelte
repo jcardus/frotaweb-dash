@@ -1,16 +1,16 @@
 <script>
     import ApexCharts from 'apexcharts';
     import {onMount} from "svelte";
+    import {t} from '$lib/i18n.js'
     export let devices = []
     export let positions = []
-    export let type
-    const getValue = (p, d) => type === 'odometer' ?
+    const getValue = (p, d, t = 'odometer') => t === 'odometer' ?
         Math.round(
             (
                 (d && !d.attributes['report.ignoreOdometer'] && p.attributes.odometer)
                 || p.attributes.totalDistance
             )/1000) :
-        Math.round(p.attributes.hours/1000/3600)
+        Math.round(p.attributes.hours/1000/60)
     export let title
 
     const data = positions
@@ -24,8 +24,11 @@
             align: 'center'
         },
         series: [{
-            name: title,
-            data: data.map(p => getValue(p, devices.find(d => d.id === p.deviceId)))
+            name: t('odometer'),
+            data: data.map(p => getValue(p, devices.find(d => d.id === p.deviceId), 'odometer'))
+        },{
+            name: 'Minutos',
+            data: data.map(p => getValue(p, devices.find(d => d.id === p.deviceId), 'hours'))
         }],
         chart: {
             type: 'bar',
@@ -42,7 +45,7 @@
             }
         },
         legend: {
-            show: false // Hide the legend at the bottom
+            show: true // Hide the legend at the bottom
         },
         stroke: {
             width: 1,
@@ -51,9 +54,6 @@
         dataLabels: {
             enabled: true,
             textAnchor: 'start',
-            formatter: function (val, opt) {
-                return opt.w.globals.labels[opt.dataPointIndex] + ":  " + val
-            },
             offsetX: 0,
             dropShadow: {
                 enabled: true
@@ -61,7 +61,7 @@
         },
         yaxis: {
             labels: {
-                show: false
+                show: true
             }
         },
         xaxis: {
@@ -77,6 +77,6 @@
     )
 </script>
 
-<div class="rounded-lg shadow-md bg-gray-200 h-full-max">
+<div class="rounded-lg shadow-md bg-gray-200">
     <div bind:this={div}></div>
 </div>

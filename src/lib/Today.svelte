@@ -8,7 +8,7 @@
     import {t} from './i18n.js'
     export let title
     export let devices
-    let _devices = devices.sort((a, b) => a.name.localeCompare(b.name)).slice(0, 30)
+    let _devices = devices.sort((a, b) => a.name.localeCompare(b.name)).slice(0, 20)
     const options = {
         noData: {
             text: t('A Carregar') + '...',
@@ -29,7 +29,7 @@
         },
         chart: {
             type: 'rangeBar',
-            height: '100%'
+            height: 500
         },
         plotOptions: {
             bar: {
@@ -116,6 +116,6 @@
     }
 </script>
 
-<div class="rounded-lg shadow-md bg-gray-200 h-full-max">
+<div class="rounded-lg shadow-md bg-gray-200">
     <div bind:this={div}></div>
 </div>

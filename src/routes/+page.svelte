@@ -39,13 +39,14 @@
             </div>
         </div>
     {:then {devices, positions}}
-        <div class="grid grid-cols-3 gap-3 p-3 h-lvh" >
+        <div class="grid grid-cols-3 gap-3 p-3">
             <DeviceStatesGroupedDonut {devices}></DeviceStatesGroupedDonut>
             <DeviceIgnitionDonut {positions} {devices}></DeviceIgnitionDonut>
             <DeviceAlarm {positions} {devices}></DeviceAlarm>
-            <DeviceTotals {positions} {devices} type="odometer" title="Hodômetro (Kms)"></DeviceTotals>
-            <DeviceTotals {positions} {devices} type="hours" title="Horímetro (Horas)"></DeviceTotals>
-            <Today {positions} {devices} title={t('Atividade hoje')}></Today>
+            <DeviceTotals {positions} {devices} title={t('Hodômetro / Horímetro')}></DeviceTotals>
+            <div class="col-span-2 grid-cols-subgrid gap-3">
+                <Today {positions} {devices} title={t('Atividade hoje')}></Today>
+            </div>
         </div>
     {/await}
 
