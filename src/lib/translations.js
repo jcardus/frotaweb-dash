@@ -11,6 +11,7 @@ export default {
         'Hodômetro / Horímetro': 'Cuentakilómetros / Contador de horas'
     },
     pt: {
-        odometer: 'Hodômetro'
+        odometer: 'Hodômetro',
+        device: 'Dispositivo'
     }
 };

@@ -2,8 +2,9 @@
     import { onMount } from 'svelte';
     import ApexCharts from 'apexcharts';
     import { t } from "$lib/i18n";
+    import {showGrid} from './store.js'
 
-    export let devices = []
+    const {devices} = $props()
     let stateCounts = {Online: [], '12 horas': [], '24 horas': [], '36 horas': [], '48 horas': [], '+ 48 horas': []};
     devices.forEach(device => {
         const lastUpdate = new Date().getTime() - new Date(device.lastUpdate).getTime()
@@ -36,7 +37,13 @@
         },
         chart: {
             type: 'donut',
-            height: 250
+            height: 250,
+            events: {
+                click: function(event, chartContext, opts) {
+                    console.log(opts.dataPointIndex)
+                    showGrid.set(true)
+                }
+            }
         },
         legend: {
             position: 'right'

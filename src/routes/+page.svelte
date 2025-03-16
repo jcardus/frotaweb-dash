@@ -4,6 +4,8 @@
     const primary = palette(undefined, undefined).primary.main;
     const secondary = palette(undefined, undefined).secondary.main;
     import {t} from '$lib/i18n'
+    import Grid from "$lib/Grid.svelte";
+
 
     // eslint-disable-next-line no-undef
     Apex.colors = [secondary, primary, "#ca8a04",
@@ -48,6 +50,7 @@
                 <Today {positions} {devices} title={t('Atividade hoje')}></Today>
             </div>
         </div>
+        <Grid></Grid>
     {/await}
 
 
