@@ -29,7 +29,7 @@
         },
         chart: {
             type: 'rangeBar',
-            height: 400
+            height: '100%',
         },
         plotOptions: {
             bar: {
@@ -116,6 +116,6 @@
     }
 </script>
 
-<div class="rounded-lg shadow-md bg-gray-200">
+<div class="rounded-lg shadow-md bg-gray-200 h-full">
     <div bind:this={div}></div>
 </div>

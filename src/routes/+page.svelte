@@ -41,12 +41,12 @@
             </div>
         </div>
     {:then {devices, positions}}
-        <div class="grid grid-cols-3 gap-3 p-3">
+        <div class="grid grid-cols-3 gap-3 p-3 h-lvh">
             <DeviceStatesGroupedDonut {devices}></DeviceStatesGroupedDonut>
             <DeviceIgnitionDonut {positions} {devices}></DeviceIgnitionDonut>
             <DeviceAlarm {positions} {devices}></DeviceAlarm>
             <DeviceTotals {positions} {devices} title={t('Hodômetro / Horímetro')}></DeviceTotals>
-            <div class="col-span-2 grid-cols-subgrid gap-3">
+            <div class="col-span-2 grid-cols-subgrid gap-3 h-full">
                 <Today {positions} {devices} title={t('Atividade hoje')}></Today>
             </div>
         </div>
