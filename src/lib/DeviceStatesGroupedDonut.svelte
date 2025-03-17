@@ -40,7 +40,6 @@
             height: 250,
             events: {
                 click: function(event, chartContext, opts) {
-                    console.log(opts)
                     showGrid.set(true)
                     gridFilter.set({
                         filter: stateCounts[Object.keys(stateCounts)[opts.dataPointIndex]],

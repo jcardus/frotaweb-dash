@@ -35,8 +35,8 @@
 
     </div>
 
-    <div class="fixed inset-0 z-10 w-screen overflow-y-auto" >
-        <div class="flex  justify-center text-center p-5" onclick="{() => showGrid.set(false)}">
+    <div class="fixed inset-0 z-10 w-screen overflow-y-auto" onclick="{() => showGrid.set(false)}">
+        <div class="flex  justify-center text-center p-5" >
             <!--
               Modal panel, show/hide based on modal state.
 
@@ -47,8 +47,8 @@
                 From: "opacity-100 translate-y-0 sm:scale-100"
                 To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             -->
-            <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all" onclick={e => e.stopPropagation()}>
-                <table class="w-full text-sm text-left text-white table-auto">
+            <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all">
+                <table class="w-full text-sm text-left text-white table-auto" onclick={e => e.stopPropagation()}>
                     <thead class="text-xs text-gray-700 uppercase">
                     <tr>
                         <th scope="col" class="px-6 py-3">

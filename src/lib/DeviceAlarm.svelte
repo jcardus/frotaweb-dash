@@ -1,6 +1,7 @@
 <script>
     import { onMount } from 'svelte';
     import ApexCharts from 'apexcharts';
+    import {gridFilter, showGrid} from "$lib/store.js";
 
     export let positions = []
     export let devices = []
@@ -25,7 +26,17 @@
         },
         chart: {
             type: 'donut',
-            height: 250
+            height: 250,
+            events: {
+                click: function(event, chartContext, opts) {
+                    showGrid.set(true)
+                    const key = Object.keys(stateCounts)[opts.dataPointIndex]
+                    gridFilter.set({
+                        filter: stateCounts[key].map(id => devices.find(d => d.id === id).name),
+                        index: opts.dataPointIndex
+                    })
+                }
+            }
         },
         legend: {
             position: 'right'

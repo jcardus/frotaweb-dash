@@ -2,23 +2,34 @@
     import { onMount } from 'svelte';
     import ApexCharts from 'apexcharts';
     import {t} from '$lib/i18n'
+    import {gridFilter, showGrid} from "$lib/store.js";
     export let positions = []
-    let stateCounts = {moving: 0, stopped: 0, ralenti: 0};
+    export let devices = []
+    let stateCounts = {moving: [], stopped: [], ralenti: []};
     positions.forEach(position => {
-        if (position.attributes.ignition && !position.speed) stateCounts.ralenti++;
-        else if (position.attributes.motion) stateCounts.moving++;
-        else stateCounts.stopped++;
+        if (position.attributes.ignition && !position.speed) stateCounts.ralenti.push(position.deviceId);
+        else if (position.attributes.motion) stateCounts.moving.push(position.deviceId);
+        else stateCounts.stopped.push(position.deviceId);
     });
     // Initialize chart options for the donut chart
     const options = {
-        series: Object.values(stateCounts),
+        series: Object.values(stateCounts).map(v => v.length),
         title: {
             text: t('Movimento'),
             align: 'center'
         },
         chart: {
             type: 'donut',
-            height: 250
+            height: 250,
+            events: {
+                click: function(event, chartContext, opts) {
+                    showGrid.set(true)
+                    gridFilter.set({
+                        filter: stateCounts[Object.keys(stateCounts)[opts.dataPointIndex]].map(p => devices.find(d => d.id === p).name),
+                        index: opts.dataPointIndex
+                    })
+                }
+            }
         },
         legend: {
             position: 'right'
