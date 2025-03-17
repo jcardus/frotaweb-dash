@@ -10,7 +10,7 @@
                 (d && !d.attributes['report.ignoreOdometer'] && p.attributes.odometer)
                 || p.attributes.totalDistance
             )/1000) :
-        Math.round(p.attributes.hours/1000/60)
+        Math.round((p.attributes.hours < 0 ? 0 : p.attributes.hours)/1000/60)
     export let title
 
     const data = positions
