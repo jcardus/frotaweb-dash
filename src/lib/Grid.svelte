@@ -7,8 +7,10 @@
         showGridValue = value;
     });
     let filter = $state([])
+    let index = $state()
     const unsubscribeFilter = gridFilter.subscribe((value) => {
-        filter = value;
+        filter = value.filter
+        index = value.index
     });
     onDestroy(() => {
         unsubscribe()
@@ -34,7 +36,7 @@
     </div>
 
     <div class="fixed inset-0 z-10 w-screen overflow-y-auto" >
-        <div class="flex justify-center text-center p-4" onclick="{() => showGrid.set(false)}">
+        <div class="flex  justify-center text-center p-5" onclick="{() => showGrid.set(false)}">
             <!--
               Modal panel, show/hide based on modal state.
 
@@ -46,8 +48,8 @@
                 To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             -->
             <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all" onclick={e => e.stopPropagation()}>
-                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 table-auto">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <table class="w-full text-sm text-left text-white table-auto">
+                    <thead class="text-xs text-gray-700 uppercase">
                     <tr>
                         <th scope="col" class="px-6 py-3">
                             {t('Device')}
@@ -62,8 +64,8 @@
                     </thead>
                     <tbody>
                     {#each devices.filter(d => filter.includes(d.name)) as device}
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        <tr style="background: {Apex.colors[index]}" class="border-b">
+                            <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap text-white">
                                 {device.name}
                             </th>
                             <td class="px-6 py-4">

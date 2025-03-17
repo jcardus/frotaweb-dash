@@ -40,9 +40,12 @@
             height: 250,
             events: {
                 click: function(event, chartContext, opts) {
-                    console.log(opts.dataPointIndex)
+                    console.log(opts)
                     showGrid.set(true)
-                    gridFilter.set(stateCounts[Object.keys(stateCounts)[opts.dataPointIndex]])
+                    gridFilter.set({
+                        filter: stateCounts[Object.keys(stateCounts)[opts.dataPointIndex]],
+                        index: opts.dataPointIndex
+                    })
                 }
             }
         },
