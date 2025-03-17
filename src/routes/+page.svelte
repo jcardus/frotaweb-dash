@@ -50,7 +50,7 @@
                 <Today {positions} {devices} title={t('Atividade hoje')}></Today>
             </div>
         </div>
-        <Grid></Grid>
+        <Grid {devices}></Grid>
     {/await}
 
 

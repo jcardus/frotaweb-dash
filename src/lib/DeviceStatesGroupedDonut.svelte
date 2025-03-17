@@ -2,7 +2,7 @@
     import { onMount } from 'svelte';
     import ApexCharts from 'apexcharts';
     import { t } from "$lib/i18n";
-    import {showGrid} from './store.js'
+    import {showGrid, gridFilter} from './store.js'
 
     const {devices} = $props()
     let stateCounts = {Online: [], '12 horas': [], '24 horas': [], '36 horas': [], '48 horas': [], '+ 48 horas': []};
@@ -42,6 +42,7 @@
                 click: function(event, chartContext, opts) {
                     console.log(opts.dataPointIndex)
                     showGrid.set(true)
+                    gridFilter.set(stateCounts[Object.keys(stateCounts)[opts.dataPointIndex]])
                 }
             }
         },
