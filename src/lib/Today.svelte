@@ -29,7 +29,7 @@
         },
         chart: {
             type: 'rangeBar',
-            height: 500
+            height: 400
         },
         plotOptions: {
             bar: {
