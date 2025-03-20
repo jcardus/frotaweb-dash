@@ -4,7 +4,7 @@ export const load = async (event) => {
 };
 
 export const _load = async (event) => {
-    let devices, positions
+    let devices, positions, groups
     let response = await event.fetch('/api/devices');
     if (response.ok) {
         devices = await response.json()
@@ -13,6 +13,20 @@ export const _load = async (event) => {
     response = await event.fetch('/api/positions');
     if (response.ok) {
         positions = await response.json()
+
+        positions.slice(0, 20).forEach(p => {
+            const query = new URLSearchParams(p);
+            fetch(`/api/server/geocode?${query.toString()}`).then(response => {
+                if (response.ok) {
+                    response.text().then(r => (p.address = r))
+                }
+            })
+        })
     }
-    return {devices, positions}
+
+    response = await event.fetch('/api/groups');
+    if (response.ok) {
+        groups = await response.json()
+    }
+    return {devices, positions, groups}
 };

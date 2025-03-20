@@ -40,7 +40,7 @@
                 <div style="border-color: {primary} transparent transparent transparent;"></div>
             </div>
         </div>
-    {:then {devices, positions}}
+    {:then {devices, positions, groups}}
         <div class="grid grid-cols-3 gap-3 p-3 h-lvh">
             <DeviceStatesGroupedDonut {devices}></DeviceStatesGroupedDonut>
             <DeviceIgnitionDonut {positions} {devices}></DeviceIgnitionDonut>
@@ -50,7 +50,7 @@
                 <Today {positions} {devices} title={t('Atividade hoje')}></Today>
             </div>
         </div>
-        <Grid {devices}></Grid>
+        <Grid {groups} {devices} {positions}></Grid>
     {/await}
 
 

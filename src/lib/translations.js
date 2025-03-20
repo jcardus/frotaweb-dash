@@ -8,10 +8,14 @@ export default {
         'Atividade hoje': 'Actividad hoy dia',
         'A Carregar': 'Cargando',
         odometer: 'Cuentakilómetros',
-        'Hodômetro / Horímetro': 'Cuentakilómetros / Contador de horas'
+        'Hodômetro / Horímetro': 'Cuentakilómetros / Contador de horas',
+        Device: 'Dispositivo',
+        Group: 'Grupo'
+
     },
     pt: {
         odometer: 'Hodômetro',
-        device: 'Dispositivo'
+        Device: 'Dispositivo',
+        Group: 'Grupo'
     }
 };

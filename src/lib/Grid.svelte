@@ -2,6 +2,8 @@
     import {t} from '$lib/i18n.js'
     import {showGrid, gridFilter} from './store.js'
     import {onDestroy} from "svelte";
+    import {getOdometer, getHours} from "$lib/utils.js";
+
     let showGridValue = $state(false)
     const unsubscribe = showGrid.subscribe((value) => {
         showGridValue = value;
@@ -16,7 +18,7 @@
         unsubscribe()
         unsubscribeFilter()
     })
-    const {devices} = $props()
+    const {devices, groups, positions} = $props()
 </script>
 
 {#if showGridValue}
@@ -55,6 +57,15 @@
                             {t('Device')}
                         </th>
                         <th scope="col" class="px-6 py-3">
+                            {t('Group')}
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            {t('Horas')}
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            {t('Km')}
+                        </th>
+                        <th scope="col" class="px-6 py-3">
                             {t('Última comunicação')}
                         </th>
                         <th scope="col" class="px-6 py-3">
@@ -68,8 +79,18 @@
                             <td class="px-6 py-4">
                                 {device.name}
                             </td>
+                            <td>
+                                {groups.find(g => g.id === device.groupId)?.name}
+                            </td>
+                            <td class="text-right">
+                                {getOdometer(device, positions.find(p => p.deviceId === device.id))}
+                            </td>
+                            <td class="text-right">
+                                {getHours(positions.find(p => p.deviceId === device.id))}
+                            </td>
                             <td class="px-6 py-4">
-                                {new Date(device.lastUpdate).toLocaleString()}
+                                {new Date(device.lastUpdate).toLocaleString()}<br>
+                                {positions.find(p => p.deviceId === device.id)?.address}
                             </td>
                             <td class="px-6 py-4">
                                 {device.status}

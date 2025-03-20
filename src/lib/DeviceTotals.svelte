@@ -4,13 +4,14 @@
     import {t} from '$lib/i18n.js'
     export let devices = []
     export let positions = []
+    import {getOdometer, getMinutes} from "$lib/utils.js";
+
+
+
     const getValue = (p, d, t = 'odometer') => t === 'odometer' ?
-        Math.round(
-            (
-                (d && !d.attributes['report.ignoreOdometer'] && p.attributes.odometer)
-                || p.attributes.totalDistance
-            )/1000) :
-        Math.round((p.attributes.hours < 0 ? 0 : p.attributes.hours)/1000/60)
+        getOdometer(d, p) :
+        getMinutes(p)
+
     export let title
 
     const data = positions
