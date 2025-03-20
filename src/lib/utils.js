@@ -1,4 +1,7 @@
 export const getOdometer = (device, position)=> {
+    if (!position) {
+        return 0
+    }
     return Math.round((
         (device && !device.attributes['report.ignoreOdometer'] && position.attributes.odometer)
         || position.attributes.totalDistance
