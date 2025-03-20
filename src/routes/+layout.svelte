@@ -5,7 +5,7 @@
 </script>
 
 <svelte:head>
-    <title>dash {version}</title>
+    <title>Dashboard {version}</title>
 </svelte:head>
 
 {@render children()}
