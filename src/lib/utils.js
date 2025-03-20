@@ -9,9 +9,15 @@ export const getOdometer = (device, position)=> {
 }
 
 export function getMinutes(p) {
+    if (!p) {
+        return 0
+    }
     return Math.round((p.attributes.hours < 0 ? 0 : p.attributes.hours) / 1000 / 60);
 }
 
 export function getHours(p) {
+    if (!p) {
+        return 0
+    }
     return Math.round((p.attributes.hours < 0 ? 0 : p.attributes.hours) / 1000 / 60 / 60);
 }
