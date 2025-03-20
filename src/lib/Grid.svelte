@@ -101,10 +101,10 @@
                     <tbody>
                     {#each devices.filter(d => filter.includes(d.name)) as device}
                         <tr style="background: {Apex.colors[index]}" class="border-b">
-                            <td class="px-6 py-4">
+                            <td class="px-2">
                                 {device.name}
                             </td>
-                            <td>
+                            <td class="px-2">
                                 {groups.find(g => g.id === device.groupId)?.name}
                             </td>
                             <td class="text-right">
@@ -113,11 +113,11 @@
                             <td class="text-right">
                                 {getHours(positions.find(p => p.deviceId === device.id))}
                             </td>
-                            <td class="px-6 py-4">
+                            <td class="px-2">
                                 {new Date(device.lastUpdate).toLocaleString()}<br>
                                 {positions.find(p => p.deviceId === device.id)?.address}
                             </td>
-                            <td class="px-6 py-4">
+                            <td class="px-2">
                                 {device.status}
                             </td>
                         </tr>
