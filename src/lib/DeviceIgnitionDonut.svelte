@@ -26,7 +26,8 @@
                     showGrid.set(true)
                     gridFilter.set({
                         filter: stateCounts[Object.keys(stateCounts)[opts.dataPointIndex]].map(p => devices.find(d => d.id === p).name),
-                        index: opts.dataPointIndex
+                        index: opts.dataPointIndex,
+                        filterValue: Object.keys(stateCounts)[opts.dataPointIndex]
                     })
                 }
             }

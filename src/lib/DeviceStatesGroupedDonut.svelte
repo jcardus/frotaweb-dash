@@ -41,9 +41,11 @@
             events: {
                 click: function(event, chartContext, opts) {
                     showGrid.set(true)
+                    const key= Object.keys(stateCounts)[opts.dataPointIndex]
                     gridFilter.set({
-                        filter: stateCounts[Object.keys(stateCounts)[opts.dataPointIndex]],
-                        index: opts.dataPointIndex
+                        filter: stateCounts[key],
+                        index: opts.dataPointIndex,
+                        filterValue: key
                     })
                 }
             }
