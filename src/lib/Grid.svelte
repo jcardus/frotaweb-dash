@@ -50,17 +50,7 @@
 
     <div class="fixed inset-0 z-10 w-screen overflow-y-auto" onclick="{() => showGrid.set(false)}" role="toolbar" tabindex="0" onkeydown={() => {}}>
         <div class="flex  justify-center text-center p-14" >
-            <!--
-              Modal panel, show/hide based on modal state.
-
-              Entering: "ease-out duration-300"
-                From: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                To: "opacity-100 translate-y-0 sm:scale-100"
-              Leaving: "ease-in duration-200"
-                From: "opacity-100 translate-y-0 sm:scale-100"
-                To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-            -->
-            <div bind:this={tbl} class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all" tabindex="0" role="toolbar" onclick={e => e.stopPropagation()} onkeydown={() => {}}>
+            <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all" tabindex="0" role="toolbar" onclick={e => e.stopPropagation()} onkeydown={() => {}}>
                 <table class="w-full text-sm text-left text-white table-auto">
                     <thead class="text-xs text-gray-700 uppercase">
                     <tr class="no-print">
@@ -82,6 +72,11 @@
                             </button>
                         </td>
                     </tr>
+                </table>
+                <div bind:this={tbl}>
+                    <table class="w-full text-sm text-left text-white table-auto">
+                    <thead class="text-xs text-gray-700 uppercase">
+
                     <tr>
                         <th scope="col" class="text-center">
                             {t('Device')}
@@ -129,6 +124,7 @@
                     {/each}
                     </tbody>
                 </table>
+                </div>
             </div>
         </div>
     </div>
