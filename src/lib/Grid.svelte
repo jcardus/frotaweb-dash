@@ -65,9 +65,9 @@
                     <tbody>
                     {#each devices.filter(d => filter.includes(d.name)) as device}
                         <tr style="background: {Apex.colors[index]}" class="border-b">
-                            <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap text-white">
+                            <td class="px-6 py-4">
                                 {device.name}
-                            </th>
+                            </td>
                             <td class="px-6 py-4">
                                 {new Date(device.lastUpdate).toLocaleString()}
                             </td>
