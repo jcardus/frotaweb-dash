@@ -106,7 +106,7 @@
                     <tbody>
                     {#each groups.filter(g => devices.filter(d => filter.length === 0 || filter.includes(d.name)).map(d => d.groupId).includes(g.id)) as group}
                         <tr class="bg-gray-500 border-b" onclick={() => toggleCategory(group.name)}>
-                            <td colspan="5">
+                            <td colspan="5" class="px-1">
                                 {group.name} {closedGroups[group.name] ? "▲" : "▼"}
                             </td>
                         </tr>
