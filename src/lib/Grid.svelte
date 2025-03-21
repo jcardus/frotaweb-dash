@@ -32,20 +32,19 @@
     }
 
     const filterDevices = d => filter.length === 0 || filter.includes(d.name)
+    // Track which categories are open
+    let closedGroups = $state({})
+
+    function toggleCategory(category) {
+        // Svelte reactivity requires reassigning the entire object
+        closedGroups = { ...closedGroups, [category]: !closedGroups[category] };
+    }
+
+    const filteredDevices = devices.filter(filterDevices)
 </script>
 
 {#if showGridValue}
 <div class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true" >
-    <!--
-      Background backdrop, show/hide based on modal state.
-
-      Entering: "ease-out duration-300"
-        From: "opacity-0"
-        To: "opacity-100"
-      Leaving: "ease-in duration-200"
-        From: "opacity-100"
-        To: "opacity-0"
-    -->
     <div class="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true">
 
     </div>
@@ -93,9 +92,6 @@
                             {t('Device')}
                         </th>
                         <th scope="col" class="text-center">
-                            {t('Group')}
-                        </th>
-                        <th scope="col" class="text-center">
                             {t('Horas')}
                         </th>
                         <th scope="col" class="text-center">
@@ -110,29 +106,34 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {#each devices.filter(filterDevices) as device}
-                        <tr style={filter.length && `background: ${Apex.colors[index]}`} class="bg-gray-600 border-b">
-                            <td class="px-2">
-                                {device.name}
-                            </td>
-                            <td class="px-2">
-                                {groups.find(g => g.id === device.groupId)?.name}
-                            </td>
-                            <td class="text-right">
-                                {getOdometer(device, positions.find(p => p.deviceId === device.id))}
-                            </td>
-                            <td class="text-right">
-                                {getHours(positions.find(p => p.deviceId === device.id))}
-                            </td>
-                            <td class="px-2">
-                                {new Date(device.lastUpdate).toLocaleString()}<br>
-                                <span class="text-xs">{positions.find(p => p.deviceId === device.id)?.address}</span>
-                            </td>
-                            <td class="px-2">
-                                {device.status}
+                    {#each groups.filter(g => devices.filter(filterDevices).map(d => d.groupId).includes(g.id)) as group}
+                        <tr class="bg-gray-600 border-b" onclick={() => toggleCategory(group.name)}>
+                            <td colspan="5">
+                                {group.name} {closedGroups[group.name] ? "▲" : "▼"}
                             </td>
                         </tr>
+                        {#each devices.filter(filterDevices).filter(d => d.groupId === group.id) as device}
+                            <tr style={filter.length && `background: ${Apex.colors[index]}`} class="bg-gray-600 border-b" class:hidden={closedGroups[group.name]}>
+                                <td class="px-2">
+                                    {device.name}
+                                </td>
+                                <td class="text-right">
+                                    {getOdometer(device, positions.find(p => p.deviceId === device.id))}
+                                </td>
+                                <td class="text-right">
+                                    {getHours(positions.find(p => p.deviceId === device.id))}
+                                </td>
+                                <td class="px-2">
+                                    {new Date(device.lastUpdate).toLocaleString()}<br>
+                                    <span class="text-xs">{positions.find(p => p.deviceId === device.id)?.address}</span>
+                                </td>
+                                <td class="px-2">
+                                    {device.status}
+                                </td>
+                            </tr>
+                        {/each}
                     {/each}
+
                     </tbody>
                 </table>
                 </div>
