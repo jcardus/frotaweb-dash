@@ -31,7 +31,6 @@
         writeFileXLSX(wb, "devices.xlsx");
     }
 
-    const filterDevices = d => filter.length === 0 || filter.includes(d.name)
     // Track which categories are open
     let closedGroups = $state({})
 
@@ -40,7 +39,6 @@
         closedGroups = { ...closedGroups, [category]: !closedGroups[category] };
     }
 
-    const filteredDevices = devices.filter(filterDevices)
 </script>
 
 {#if showGridValue}
@@ -56,7 +54,7 @@
                     <thead class="text-xs text-gray-700 uppercase">
                     <tr class="no-print">
                         <td class="px-6" colspan="3">
-                            {devices.filter(filterDevices).length} / {devices.length}
+                            {devices.filter(d => filter.length === 0 || filter.includes(d.name)).length} / {devices.length}
                             <span class="inline-flex items-center rounded bg-gray-50 px-1 py-1 text-xs font-medium text-gray-600 ring-1 ring-gray-500/10 ring-inset {!filter.length && 'hidden'}">
                                 {filterValue}
                                 <button type="button" onclick="{() => filter.length=0}" class="inline-flex items-center rounded-md px-1 py-1 text-xs ring-1 ring-gray-300 ring-inset">
@@ -106,13 +104,13 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {#each groups.filter(g => devices.filter(filterDevices).map(d => d.groupId).includes(g.id)) as group}
+                    {#each groups.filter(g => devices.filter(d => filter.length === 0 || filter.includes(d.name)).map(d => d.groupId).includes(g.id)) as group}
                         <tr class="bg-gray-600 border-b" onclick={() => toggleCategory(group.name)}>
                             <td colspan="5">
                                 {group.name} {closedGroups[group.name] ? "▲" : "▼"}
                             </td>
                         </tr>
-                        {#each devices.filter(filterDevices).filter(d => d.groupId === group.id) as device}
+                        {#each devices.filter(d => filter.length === 0 || filter.includes(d.name)).filter(d => d.groupId === group.id) as device}
                             <tr style={filter.length && `background: ${Apex.colors[index]}`} class="bg-gray-600 border-b" class:hidden={closedGroups[group.name]}>
                                 <td class="px-2">
                                     {device.name}
