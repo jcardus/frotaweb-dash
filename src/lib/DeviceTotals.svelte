@@ -17,7 +17,7 @@
     const data = positions
         .filter(p => getValue(p))
         .sort((a, b) => getValue(b, devices.find(d => d.id === b.deviceId)) - getValue(a, devices.find(d => d.id === a.deviceId)))
-        .slice(0, 20)
+        .slice(0, 18)
 
     const options = {
         title: {
