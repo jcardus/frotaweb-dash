@@ -37,7 +37,7 @@
         },
         chart: {
             type: 'donut',
-            height: 250,
+            height: 230,
             events: {
                 click: function(event, chartContext, opts) {
                     showGrid.set(true)

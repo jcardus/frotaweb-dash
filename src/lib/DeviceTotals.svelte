@@ -49,7 +49,7 @@
             }
         },
         legend: {
-            show: true // Hide the legend at the bottom
+            show: false // Hide the legend at the bottom
         },
         stroke: {
             width: 1,
