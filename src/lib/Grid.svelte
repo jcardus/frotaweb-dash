@@ -49,7 +49,7 @@
 
     <div class="fixed inset-0 z-10 w-screen overflow-y-auto" onclick="{() => showGrid.set(false)}" role="toolbar" tabindex="0" onkeydown={() => {}}>
         <div class="flex  justify-center text-center p-10" >
-            <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all" tabindex="0" role="toolbar" onclick={e => e.stopPropagation()} onkeydown={() => {}}>
+            <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all py-1 px-0.5" tabindex="0" role="toolbar" onclick={e => e.stopPropagation()} onkeydown={() => {}}>
                 <table class="w-full text-sm text-left text-white table-auto">
                     <thead class="text-xs text-gray-700 uppercase">
                     <tr class="no-print">
@@ -115,7 +115,7 @@
                                 <td class="px-2">
                                     {device.name}
                                 </td>
-                                <td class="text-right">
+                                <td class="text-right px-2">
                                     {getOdometer(device, positions.find(p => p.deviceId === device.id))}
                                 </td>
                                 <td class="text-right">
