@@ -24,7 +24,7 @@ export const _load = async (event) => {
         })
     }
 
-    response = await event.fetch('/api/groups');
+    response = await event.fetch('/api/groups?all=true');
     if (response.ok) {
         groups = await response.json()
     }
