@@ -10,12 +10,13 @@ export default {
         odometer: 'Cuentakilómetros',
         'Hodômetro / Horímetro': 'Cuentakilómetros / Contador de horas',
         Device: 'Dispositivo',
-        Group: 'Grupo'
-
+        Group: 'Grupo',
+        grouped: 'Agrupado'
     },
     pt: {
         odometer: 'Hodômetro',
         Device: 'Dispositivo',
-        Group: 'Grupo'
+        Group: 'Grupo',
+        grouped: 'Agrupado'
     }
 };
