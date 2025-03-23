@@ -41,6 +41,18 @@
         closedGroups = { ...closedGroups, [category]: !closedGroups[category] };
     }
 
+    async function fetchAddress(p) {
+        if (p.address) {
+            return p.address
+        }
+        const response = await fetch(`/api/server/geocode?${new URLSearchParams(p).toString()}`)
+        if (response.ok) {
+            p.address = await response.text()
+            return p.address
+        }
+        return ''
+    }
+
 </script>
 
 {#if showGridValue}
@@ -137,8 +149,14 @@
                                     {getHours(positions.find(p => p.deviceId === device.id))}
                                 </td>
                                 <td class="px-2">
-                                    {fromNow(new Date(device.lastUpdate))}<br>
-                                    <span class="text-xs">{positions.find(p => p.deviceId === device.id)?.address}</span>
+                                    <span class="text-xs"><a href="/map?deviceId={device.uniqueId}">
+                                    {#await fetchAddress(positions.find(p => p.deviceId === device.id))}
+                                        ...
+                                    {:then address}
+                                        {address}
+                                    {/await}
+                                    </a></span><br>
+                                    {fromNow(new Date(device.lastUpdate))}
                                 </td>
                                 <td class="px-2">
                                     {device.status}
