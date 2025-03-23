@@ -94,7 +94,6 @@
                 <div bind:this={tbl}>
                     <table class="w-full text-sm text-left text-white table-auto">
                     <thead class="text-xs text-gray-700 uppercase">
-
                     <tr>
                         <th scope="col" class="text-center">
                             {t('Device')}
@@ -118,7 +117,7 @@
                     </thead>
                     <tbody>
                     {#each groups.filter(g => devices.filter(d => filter.length === 0 || filter.includes(d.name)).map(d => d.groupId).includes(g.id)) as group}
-                        <tr class="bg-gray-500 border-b" onclick={() => toggleCategory(group.name)} class:hidden={!grouped}>
+                        <tr class="bg-gray-500 border-b" onclick={() => toggleCategory(group.name)} class:hidden={!grouped} style="cursor: pointer">
                             <td colspan="5" class="px-1">
                                 {group.name}  ({devices.filter(d => filter.length === 0 || filter.includes(d.name)).filter(d => d.groupId === group.id).length}) {closedGroups[group.name] ? "▲" : "▼"}
                             </td>
