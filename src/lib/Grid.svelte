@@ -151,7 +151,7 @@
                                 <td class="px-2">
                                     <span class="text-xs"><button class="text-left" onkeydown={() => {}} onclick={() => {
                                         const url = '/map?deviceId='+device.uniqueId
-                                        window.parent.postMessage({type: 'openurl', url}, '*')
+                                        window.parent.postMessage({type: 'openUrl', url}, '*')
                                         console.log('sent', url)
                                     }}>
                                     {#await fetchAddress(positions.find(p => p.deviceId === device.id))}
