@@ -1,10 +1,16 @@
+import { sentrySvelteKit } from "@sentry/sveltekit";
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
 import { readFileSync } from 'fs';
 const pkg = JSON.parse(readFileSync('./package.json', 'utf-8'));
 
 export default defineConfig({
-	plugins: [sveltekit()],
+	plugins: [sentrySvelteKit({
+        sourceMapsUploadOptions: {
+            org: "rastreosat",
+            project: "rastreosat"
+        }
+    }), sveltekit()],
 	server: {
 		proxy: {
 			'/api/socket': 'ws://gps.rastreosat.com.br',

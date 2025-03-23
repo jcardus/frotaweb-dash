@@ -1,5 +1,6 @@
 import { es, ptBR, pt } from 'date-fns/locale'
 import { formatDistance } from 'date-fns'
+import * as Sentry from '@sentry/sveltekit'
 
 
 const locales = {
@@ -12,9 +13,10 @@ const locales = {
 const getLocale = () => {
     const userLang = navigator.language;
     if (!locales[userLang]) {
-        // sentry
+        Sentry.captureMessage('unknown locale ' + userLang)
+        return ptBR
     }
-    return locales[userLang] || ptBR; // Default to en-US if not available
+    return locales[userLang]
 };
 
 export const fromNow = (date) => {
