@@ -114,10 +114,10 @@
                             {t('Grupo')}
                         </th>
                         <th scope="col" class="text-center">
-                            {t('Horas')}
+                            {t('Kms')}
                         </th>
                         <th scope="col" class="text-center">
-                            {t('Km')}
+                            {t('Horas')}
                         </th>
                         <th scope="col" class="text-center">
                             {t('Última comunicação')}
