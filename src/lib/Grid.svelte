@@ -149,7 +149,7 @@
                                     {getHours(positions.find(p => p.deviceId === device.id))}
                                 </td>
                                 <td class="px-2">
-                                    <span class="text-xs"><button class="text-left" onkeydown={() => {}} onclick="{() => window.parent.postMessage({type: 'openurl', url: '/map?deviceId='+device.uniqueId})}">
+                                    <span class="text-xs"><button class="text-left" onkeydown={() => {}} onclick="{() => window.parent.postMessage({type: 'openurl', url: '/map?deviceId='+device.uniqueId}, '*')}">
                                     {#await fetchAddress(positions.find(p => p.deviceId === device.id))}
                                         ...
                                     {:then address}
