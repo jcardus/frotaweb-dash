@@ -5,9 +5,11 @@ import * as Sentry from '@sentry/sveltekit'
 
 const locales = {
     'es-ES': es,
+    'es': es,
     'es-CL': es,
     'pt-BR': ptBR,
-    'pt-PT': pt
+    'pt-PT': pt,
+    'pt': pt
 };
 
 const getLocale = () => {
