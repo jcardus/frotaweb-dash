@@ -2,8 +2,9 @@
     import {t} from '$lib/i18n.js'
     import {showGrid, gridFilter} from './store.js'
     import {onDestroy} from "svelte";
-    import {getOdometer, getHours} from "$lib/utils.js";
+    import {getOdometer, getHours} from '$lib/utils.js';
     import { utils, writeFileXLSX } from 'xlsx';
+    import {fromNow} from '$lib/utils.js';
 
     let tbl
     let showGridValue = $state(false)
@@ -137,7 +138,7 @@
                                     {getHours(positions.find(p => p.deviceId === device.id))}
                                 </td>
                                 <td class="px-2">
-                                    {new Date(device.lastUpdate).toLocaleString()}<br>
+                                    {fromNow(new Date(device.lastUpdate))}<br>
                                     <span class="text-xs">{positions.find(p => p.deviceId === device.id)?.address}</span>
                                 </td>
                                 <td class="px-2">
