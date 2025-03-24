@@ -4,7 +4,7 @@
     import {onDestroy} from "svelte";
     import {getOdometer, getHours} from '$lib/utils.js';
     import { utils, writeFileXLSX } from 'xlsx';
-    import {fromNow} from '$lib/utils.js';
+    import GridRow from "$lib/GridRow.svelte";
 
     // eslint-disable-next-line svelte/valid-compile
     let tbl
@@ -26,7 +26,7 @@
         unsubscribe()
         unsubscribeFilter()
     })
-    const {devices, groups, positions} = $props()
+    const {devices, groups} = $props()
 
 
     const getXls =  () => {
@@ -44,20 +44,13 @@
         closedGroups = { ...closedGroups, [category]: !closedGroups[category] };
     }
 
-    async function fetchAddress(p) {
-        if (p.address) {
-            return p.address
-        }
-        const response = await fetch(`/api/server/geocode?${new URLSearchParams(p).toString()}`)
-        if (response.ok) {
-            p.address = await response.text()
-            return p.address
-        }
-        return ''
-    }
+
 
     const sort = (a, b) => {
         switch (sortColumn) {
+            case 'lastUpdate':
+                return sortAsc ? new Date(b.lastUpdate) - new Date(a.lastUpdate) :
+                    new Date(a.lastUpdate) - new Date(b.lastUpdate)
             case 'kms':
                 return sortAsc ?
                     getOdometer(a, a.position) - getOdometer(b, b.position) :
@@ -153,13 +146,18 @@
                                 }
                                 sortColumn = 'kms'
                             }}>
-                            {t('Kms')}
+                            {t('Kms') + (sortColumn === 'kms' ? (sortAsc ? '↑' : '↓') : '')}
                         </th>
                         <th scope="col" class="text-center">
-                            {t('Horas')}
+                            {t('Horas') + (sortColumn === 'hours' ? (sortAsc ? '↑' : '↓') : '')}
                         </th>
-                        <th scope="col" class="text-center">
-                            {t('Última comunicação')}
+                        <th scope="col" class="text-center" onclick={() => {
+                                if (sortColumn === 'lastUpdate') {
+                                    sortAsc = !sortAsc
+                                }
+                                sortColumn = 'lastUpdate'
+                            }}>
+                            {t('Última comunicação') + (sortColumn === 'lastUpdate' ? (sortAsc ? '↑' : '↓') : '')}
                         </th>
                         <th scope="col" class="text-center">
                             {t('Status')}
@@ -167,60 +165,29 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {#each groups.filter(g => devices.filter(d => filter.length === 0 || filter.includes(d.name)).map(d => d.groupId).includes(g.id)) as group}
-                        <tr class="bg-gray-500 border-b" onclick={() => toggleCategory(group.name)} class:hidden={!grouped} style="cursor: pointer">
-                            <td colspan="5" class="px-1">
-                                {group.name}  ({devices.filter(d => filter.length === 0 || filter.includes(d.name)).filter(d => d.groupId === group.id).length}) {closedGroups[group.name] ? "▲" : "▼"}
-                            </td>
-                        </tr>
-                        {#each devices
-                            .filter(d => filter.length === 0 || filter.includes(d.name))
-                            .filter(d => d.groupId === group.id)
-                            .sort(sort)
-                                as device}
-                            <tr
-                                    onclick={() => {
-                                        const url = '/map?deviceId='+device.uniqueId
-                                        window.parent.postMessage({type: 'openUrl', url}, '*')
-                                        console.log('sent', url)
-                                    }}
-                                    onmouseenter={(e) => e.target.style.opacity='0.8'}
-                                    onmouseleave={(e) => e.target.style.opacity='1'}
-                                    style="cursor: pointer; {filter.length && `background: ${
-                                        // eslint-disable-next-line no-undef
-                                        Apex.colors[index]
-                                    }`}"
-                                    class="bg-gray-600 border-b" class:hidden={closedGroups[group.name]}
-                            >
-                                <td class="px-2">
-                                    {device.name}
-                                </td>
-                                <td class="px-2" class:hidden={grouped}>
-                                    {groups.find(g => g.id === device.groupId)?.name}
-                                </td>
-                                <td class="text-right px-2">
-                                    {getOdometer(device, device.position)}
-                                </td>
-                                <td class="text-right">
-                                    {getHours(device.position)}
-                                </td>
-                                <td class="px-2">
-                                    <span class="text-xs">
-                                    {#await fetchAddress(device.position)}
-                                        ...
-                                    {:then address}
-                                        {address}
-                                    {/await}
-                                    </span><br>
-                                    {fromNow(new Date(device.lastUpdate))}
-                                </td>
-                                <td class="px-2">
-                                    {device.status}
+                    {#if grouped}
+                        {#each groups.filter(g => devices.filter(d => filter.length === 0 || filter.includes(d.name)).map(d => d.groupId).includes(g.id)) as group}
+                            <tr class="bg-gray-500 border-b" onclick={() => toggleCategory(group.name)} class:hidden={!grouped} style="cursor: pointer">
+                                <td colspan="5" class="px-1">
+                                    {group.name}  ({devices.filter(d => filter.length === 0 || filter.includes(d.name)).filter(d => d.groupId === group.id).length}) {closedGroups[group.name] ? "▲" : "▼"}
                                 </td>
                             </tr>
+                            {#each devices
+                                .filter(d => filter.length === 0 || filter.includes(d.name))
+                                .filter(d => d.groupId === group.id)
+                                .sort(sort)
+                                    as device}
+                                <GridRow {device} {grouped} {groups} {closedGroups} {filter} {group} {index}></GridRow>
+                            {/each}
                         {/each}
-                    {/each}
-
+                    {:else}
+                        {#each devices
+                            .filter(d => filter.length === 0 || filter.includes(d.name))
+                            .sort(sort)
+                                as device}
+                            <GridRow {device} {grouped} {groups} {closedGroups} {filter} {index}></GridRow>
+                        {/each}
+                    {/if}
                     </tbody>
                 </table>
                 </div>
