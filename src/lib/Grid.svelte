@@ -6,6 +6,8 @@
     import { utils, writeFileXLSX } from 'xlsx';
     import {fromNow} from '$lib/utils.js';
 
+    
+    // eslint-disable-next-line svelte/valid-compile
     let tbl
     let showGridValue = $state(false)
     const unsubscribe = showGrid.subscribe((value) => {
