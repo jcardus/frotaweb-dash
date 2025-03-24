@@ -135,7 +135,17 @@
                             </td>
                         </tr>
                         {#each devices.filter(d => filter.length === 0 || filter.includes(d.name)).filter(d => d.groupId === group.id) as device}
-                            <tr style={filter.length && `background: ${Apex.colors[index]}`} class="bg-gray-600 border-b" class:hidden={closedGroups[group.name]}>
+                            <tr
+                                    onclick={() => {
+                                        const url = '/map?deviceId='+device.uniqueId
+                                        window.parent.postMessage({type: 'openUrl', url}, '*')
+                                        console.log('sent', url)
+                                    }}
+                                    onmouseenter={(e) => e.target.style.opacity='0.8'}
+                                    onmouseleave={(e) => e.target.style.opacity='1'}
+                                    style="cursor: pointer; {filter.length && `background: ${Apex.colors[index]}`}"
+                                    class="bg-gray-600 border-b" class:hidden={closedGroups[group.name]}
+                            >
                                 <td class="px-2">
                                     {device.name}
                                 </td>
@@ -149,17 +159,13 @@
                                     {getHours(positions.find(p => p.deviceId === device.id))}
                                 </td>
                                 <td class="px-2">
-                                    <span class="text-xs"><button class="text-left" onkeydown={() => {}} onclick={() => {
-                                        const url = '/map?deviceId='+device.uniqueId
-                                        window.parent.postMessage({type: 'openUrl', url}, '*')
-                                        console.log('sent', url)
-                                    }}>
+                                    <span class="text-xs">
                                     {#await fetchAddress(positions.find(p => p.deviceId === device.id))}
                                         ...
                                     {:then address}
                                         {address}
                                     {/await}
-                                    </button></span><br>
+                                    </span><br>
                                     {fromNow(new Date(device.lastUpdate))}
                                 </td>
                                 <td class="px-2">
@@ -183,5 +189,8 @@
         .no-print {
             display: none !important;
         }
+    }
+    tr:hover {
+        background-color: lightgray; /* Change to your preferred color */
     }
 </style>
