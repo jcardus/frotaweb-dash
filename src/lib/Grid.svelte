@@ -6,7 +6,6 @@
     import { utils, writeFileXLSX } from 'xlsx';
     import {fromNow} from '$lib/utils.js';
 
-    
     // eslint-disable-next-line svelte/valid-compile
     let tbl
     let showGridValue = $state(false)
@@ -145,7 +144,10 @@
                                     }}
                                     onmouseenter={(e) => e.target.style.opacity='0.8'}
                                     onmouseleave={(e) => e.target.style.opacity='1'}
-                                    style="cursor: pointer; {filter.length && `background: ${Apex.colors[index]}`}"
+                                    style="cursor: pointer; {filter.length && `background: ${
+                                        // eslint-disable-next-line no-undef
+                                        Apex.colors[index]
+                                    }`}"
                                     class="bg-gray-600 border-b" class:hidden={closedGroups[group.name]}
                             >
                                 <td class="px-2">
