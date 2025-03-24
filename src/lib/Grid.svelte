@@ -55,10 +55,16 @@
                 return sortAsc ?
                     getOdometer(a, a.position) - getOdometer(b, b.position) :
                     getOdometer(b, b.position) - getOdometer(a, a.position)
+            case 'group':
+                return sortAsc ?
+                    groups.find(g => g.id === a.groupId)?.name.localeCompare(groups.find(g => g.id === b.groupId)?.name) :
+                    groups.find(g => g.id === b.groupId)?.name.localeCompare(groups.find(g => g.id === a.groupId)?.name)
             case 'hours':
                 return sortAsc ?
-                    getHours(a, a.position) - getOdometer(b, b.position) :
-                    getHours(b, b.position) - getOdometer(a, a.position)
+                    getHours(a.position) - getHours(b.position) :
+                    getHours(b.position) - getHours(a.position)
+            case 'status':
+                return sortAsc ? a.status.localeCompare(b.status) : b.status.localeCompare(a.status)
             case 'name':
             default:
                 return sortAsc ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name)
@@ -148,7 +154,13 @@
                             }}>
                             {t('Kms') + (sortColumn === 'kms' ? (sortAsc ? '↑' : '↓') : '')}
                         </th>
-                        <th scope="col" class="text-center">
+                        <th scope="col" class="text-center"
+                            onclick={() => {
+                                if (sortColumn === 'hours') {
+                                    sortAsc = !sortAsc
+                                }
+                                sortColumn = 'hours'
+                            }}>
                             {t('Horas') + (sortColumn === 'hours' ? (sortAsc ? '↑' : '↓') : '')}
                         </th>
                         <th scope="col" class="text-center" onclick={() => {
@@ -159,8 +171,14 @@
                             }}>
                             {t('Última comunicação') + (sortColumn === 'lastUpdate' ? (sortAsc ? '↑' : '↓') : '')}
                         </th>
-                        <th scope="col" class="text-center">
-                            {t('Status')}
+                        <th scope="col" class="text-center"
+                            onclick={() => {
+                                if (sortColumn === 'status') {
+                                    sortAsc = !sortAsc
+                                }
+                                sortColumn = 'status'
+                            }}>
+                            {t('Status') + (sortColumn === 'status' ? (sortAsc ? '↑' : '↓') : '')}
                         </th>
                     </tr>
                     </thead>
