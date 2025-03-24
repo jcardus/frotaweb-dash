@@ -13,15 +13,7 @@ export const _load = async (event) => {
     response = await event.fetch('/api/positions');
     if (response.ok) {
         positions = await response.json()
-
-        positions.slice(0, 20).forEach(p => {
-            const query = new URLSearchParams(p);
-            fetch(`/api/server/geocode?${query.toString()}`).then(response => {
-                if (response.ok) {
-                    response.text().then(r => (p.address = r))
-                }
-            })
-        })
+        positions.forEach( p => devices.find(d => d.id === p.deviceId).position = p)
     }
 
     response = await event.fetch('/api/groups?all=true');

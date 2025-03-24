@@ -15,6 +15,8 @@
     let filter = $state([])
     let index = $state()
     let filterValue = $state()
+    let sortColumn = $state('name')
+    let sortAsc = $state(true)
     const unsubscribeFilter = gridFilter.subscribe((value) => {
         filter = value.filter
         index = value.index
@@ -53,6 +55,23 @@
         }
         return ''
     }
+
+    const sort = (a, b) => {
+        switch (sortColumn) {
+            case 'kms':
+                return sortAsc ?
+                    getOdometer(a, a.position) - getOdometer(b, b.position) :
+                    getOdometer(b, b.position) - getOdometer(a, a.position)
+            case 'hours':
+                return sortAsc ?
+                    getHours(a, a.position) - getOdometer(b, b.position) :
+                    getHours(b, b.position) - getOdometer(a, a.position)
+            case 'name':
+            default:
+                return sortAsc ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name)
+        }
+    }
+
 
 </script>
 
@@ -107,14 +126,33 @@
                 <div bind:this={tbl}>
                     <table class="w-full text-sm text-left text-white table-auto">
                     <thead class="text-xs text-gray-700 uppercase">
-                    <tr>
-                        <th scope="col" class="text-center">
-                            {t('Device')}
+                    <tr style="cursor: pointer">
+                        <th scope="col"
+                            class="text-center"
+                            onclick={() => {
+                                if (sortColumn === 'name') {
+                                    sortAsc = !sortAsc
+                                }
+                                sortColumn = 'name'
+                            }}>
+                            {t('Device') + (sortColumn === 'name' ? (sortAsc ? '↑' : '↓') : '')}
                         </th>
-                        <th scope="col" class="text-center" class:hidden={grouped}>
-                            {t('Grupo')}
+                        <th scope="col" class="text-center" class:hidden={grouped}
+                            onclick={() => {
+                                if (sortColumn === 'group') {
+                                    sortAsc = !sortAsc
+                                }
+                                sortColumn = 'group'
+                            }}>
+                            {t('Grupo') + (sortColumn === 'group' ? (sortAsc ? '↑' : '↓') : '')}
                         </th>
-                        <th scope="col" class="text-center">
+                        <th scope="col" class="text-center"
+                            onclick={() => {
+                                if (sortColumn === 'kms') {
+                                    sortAsc = !sortAsc
+                                }
+                                sortColumn = 'kms'
+                            }}>
                             {t('Kms')}
                         </th>
                         <th scope="col" class="text-center">
@@ -135,7 +173,11 @@
                                 {group.name}  ({devices.filter(d => filter.length === 0 || filter.includes(d.name)).filter(d => d.groupId === group.id).length}) {closedGroups[group.name] ? "▲" : "▼"}
                             </td>
                         </tr>
-                        {#each devices.filter(d => filter.length === 0 || filter.includes(d.name)).filter(d => d.groupId === group.id) as device}
+                        {#each devices
+                            .filter(d => filter.length === 0 || filter.includes(d.name))
+                            .filter(d => d.groupId === group.id)
+                            .sort(sort)
+                                as device}
                             <tr
                                     onclick={() => {
                                         const url = '/map?deviceId='+device.uniqueId
@@ -157,14 +199,14 @@
                                     {groups.find(g => g.id === device.groupId)?.name}
                                 </td>
                                 <td class="text-right px-2">
-                                    {getOdometer(device, positions.find(p => p.deviceId === device.id))}
+                                    {getOdometer(device, device.position)}
                                 </td>
                                 <td class="text-right">
-                                    {getHours(positions.find(p => p.deviceId === device.id))}
+                                    {getHours(device.position)}
                                 </td>
                                 <td class="px-2">
                                     <span class="text-xs">
-                                    {#await fetchAddress(positions.find(p => p.deviceId === device.id))}
+                                    {#await fetchAddress(device.position)}
                                         ...
                                     {:then address}
                                         {address}
