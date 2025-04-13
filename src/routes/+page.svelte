@@ -5,7 +5,9 @@
     const secondary = palette(undefined, undefined).secondary.main;
     import {t} from '$lib/i18n'
     import Grid from "$lib/Grid.svelte";
-
+    import {loadingTrips} from "$lib/store.js";
+    let _loadingTrips = $state(true)
+    loadingTrips.subscribe(v => _loadingTrips = v)
 
     // eslint-disable-next-line no-undef
     Apex.colors = [secondary, primary, "#ca8a04",
@@ -46,7 +48,12 @@
             <DeviceIgnitionDonut {positions} {devices}></DeviceIgnitionDonut>
             <DeviceAlarm {positions} {devices}></DeviceAlarm>
             <DeviceTotals {positions} {devices} title={t('Hodômetro / Horímetro')}></DeviceTotals>
-            <div class="col-span-2 grid-cols-subgrid gap-3 h-full">
+            <div class="col-span-2 grid-cols-subgrid gap-3 h-full relative">
+                {#if _loadingTrips}
+                    <div class="absolute inset-0 flex items-center justify-center bg-gray-200 bg-opacity-75 z-10">
+                        <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-gray-600"></div>
+                    </div>
+                {/if}
                 <Today {positions} {devices} title={t('Atividade hoje')}></Today>
             </div>
         </div>

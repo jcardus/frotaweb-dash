@@ -3,12 +3,13 @@
     import {onMount} from "svelte";
     import palette from "$lib/palette.js";
     const now = new Date();
-    const from = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
-    const to = from + 1000 * 60 * 60 * 24
+    const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime()
+    let from = $state(midnight)
+    let to = $state(midnight + 1000 * 60 * 60 * 24)
     import {t} from './i18n.js'
-    export let title
-    export let devices
-    let _devices = devices.sort((a, b) => a.name.localeCompare(b.name)).slice(0, 20)
+    import {loadingTrips} from "$lib/store.js";
+    const {title, devices} = $props()
+    let _devices = devices.sort((a, b) => a.name.localeCompare(b.name)).slice(0, 5)
     const options = {
         noData: {
             text: t('A Carregar') + '...',
@@ -28,6 +29,12 @@
             align: 'left'
         },
         chart: {
+            events: {
+                zoomed: (chartContext, { xaxis }) => {
+                    from = xaxis.min
+                    to = xaxis.max
+                }
+            },
             type: 'rangeBar',
             height: '100%',
             zoom: {
@@ -49,6 +56,9 @@
             max: 0,
             type: 'datetime'
         },
+        yaxis: {
+            show: false
+        },
         legend: {
             show: false,
         },
@@ -63,19 +73,27 @@
         }
     };
     let div;
+    let chart
     onMount(async () => {
-
-        const chart = new ApexCharts(div, options)
+        chart = new ApexCharts(div, options)
         await chart.render()
         await getTrips()
         options.xaxis.min = from
         options.xaxis.max = to
+        options.yaxis[0].show = true
         await chart.updateOptions(options, true, true)
     })
-    const getTrips = async () => {
+    $effect(async () => {
+        await getTrips(from, to)
+        options.xaxis.min = from
+        options.xaxis.max = to
+        await chart.updateOptions(options, true, true)
+    });
+    const getTrips = async (_from, _to) => {
+        loadingTrips.set(true)
         const response = await fetch(
             `/api/reports/trips?${_devices.map(d => `deviceId=${d.id}`).join('&')
-            }&from=${new Date(from).toISOString()}&to=${new Date(to).toISOString()}`,
+            }&from=${new Date(_from || from).toISOString()}&to=${new Date(_to || to).toISOString()}`,
             {
                 headers: {Accept: 'application/json'},
             }
@@ -116,6 +134,7 @@
                     ))
                 }])
         }
+        loadingTrips.set(false)
     }
 </script>
 
