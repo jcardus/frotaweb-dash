@@ -7,7 +7,7 @@
     let from = $state(midnight)
     let to = $state(midnight + 1000 * 60 * 60 * 24)
     import {t} from './i18n.js'
-    import {loadingTrips} from "$lib/store.js";
+    import {loadingTrips, activityFullScreen} from "$lib/store.js";
     const {title, devices} = $props()
     let _devices = devices.sort((a, b) => a.name.localeCompare(b.name)).slice(0, 20)
     const options = {
@@ -39,7 +39,18 @@
             height: '100%',
             zoom: {
                 enabled: true
-            }
+            },
+            toolbar: {
+                show: true,
+                tools: {
+                    customIcons: [
+                        {
+                            icon: '<span>⛶</span>',
+                            click: () => activityFullScreen.set(!fullscreen),
+                        }
+                    ]
+                }
+            },
         },
         plotOptions: {
             bar: {
@@ -56,9 +67,6 @@
             max: 0,
             type: 'datetime',
             labels: {datetimeUTC: false}
-        },
-        yaxis: {
-            show: false
         },
         legend: {
             show: false,
@@ -81,20 +89,28 @@
     };
     let div;
     let chart
+    let fullscreen = $state(false)
+    activityFullScreen.subscribe(v => fullscreen = v)
     onMount(async () => {
         chart = new ApexCharts(div, options)
         await chart.render()
         await getTrips()
         options.xaxis.min = from
         options.xaxis.max = to
-        options.yaxis[0].show = true
-        await chart.updateOptions(options, true, true)
+        updateChart()
     })
+
+    function updateChart() {
+        if (chart) {
+            chart.updateOptions(options, true, true)
+        }
+    }
+
     $effect(async () => {
         await getTrips(from, to)
         options.xaxis.min = from
         options.xaxis.max = to
-        await chart.updateOptions(options, true, true)
+        updateChart()
     });
     const getTrips = async (_from, _to) => {
         loadingTrips.set(true)
@@ -115,8 +131,11 @@
         if (response.ok && responseStops.ok) {
             const trips = await response.json()
             const stops = await responseStops.json()
-            options.series = [
-
+            // include empty series
+            options.series = _devices.map(d => ({
+                name: 'dummy',
+                data: [{x: d.name}]
+            })).concat([
                     {
                         color: palette(undefined, undefined).primary.main,
                         name: 'Stops',
@@ -139,11 +158,11 @@
                             }
                         ))
                     }
-                ]
+                ])
         }
         loadingTrips.set(false)
     }
 </script>
 
-<div bind:this={div} class="rounded-lg shadow-md bg-gray-200 h-full">
+<div bind:this={div} class="rounded-lg shadow-md bg-gray-200 h-full w-full">
 </div>

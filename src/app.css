@@ -2,12 +2,6 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-.apexcharts-tooltip {
-    white-space: pre-wrap !important;
-    max-width: 200px;
-    transform: translateY(100%) !important;
-}
-
 body {
     height: 100%
 }

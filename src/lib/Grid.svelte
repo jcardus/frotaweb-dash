@@ -7,7 +7,7 @@
     import GridRow from "$lib/GridRow.svelte";
 
     // eslint-disable-next-line svelte/valid-compile
-    let tbl
+    let tbl = $state(null)
     let showGridValue = $state(false)
     const unsubscribe = showGrid.subscribe((value) => {
         showGridValue = value;

@@ -5,9 +5,11 @@
     const secondary = palette(undefined, undefined).secondary.main;
     import {t} from '$lib/i18n'
     import Grid from "$lib/Grid.svelte";
-    import {loadingTrips} from "$lib/store.js";
+    import {loadingTrips, activityFullScreen} from "$lib/store.js";
     let _loadingTrips = $state(true)
     loadingTrips.subscribe(v => _loadingTrips = v)
+    let _activityFullScreen = $state(false)
+    activityFullScreen.subscribe(v => _activityFullScreen = v)
 
     // eslint-disable-next-line no-undef
     Apex.colors = [secondary, primary, "#ca8a04",
@@ -48,7 +50,10 @@
             <DeviceIgnitionDonut {positions} {devices}></DeviceIgnitionDonut>
             <DeviceAlarm {positions} {devices}></DeviceAlarm>
             <DeviceTotals {positions} {devices} title={t('Hodômetro / Horímetro')}></DeviceTotals>
-            <div class="col-span-2 grid-cols-subgrid gap-3 h-full relative">
+            <div class="{_activityFullScreen ?
+                    'absolute pb-6 h-full w-full pr-6' :
+                    'relative col-span-2 grid-cols-subgrid gap-3 w-full'
+                }">
                 {#if _loadingTrips}
                     <div class="absolute inset-0 flex items-center justify-center bg-gray-200 bg-opacity-75 z-10">
                         <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-gray-600"></div>
