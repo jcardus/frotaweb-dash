@@ -65,11 +65,17 @@
         },
         tooltip: {
             custom: function(opts) {
-                const fromYear = new Date(opts.y1).toLocaleString()
-                const toYear = new Date(opts.y2).toLocaleTimeString()
-                // const w = opts.ctx.w
-                // let ylabel = w.config.series[opts.seriesIndex].data?.[opts.dataPointIndex]?.x
-                return `<span style="padding: 5px; font-size: x-small">${fromYear} - ${toYear}</span>`
+                const from = new Date(opts.y1)
+                const to = new Date(opts.y2)
+                const { seriesIndex, dataPointIndex, ctx } = opts
+                const params = ctx.w.config.series[seriesIndex].data[dataPointIndex]
+                params.from =  from.toISOString()
+                params.to =  to.toISOString()
+
+                return `
+                    <span style="padding: 5px; font-size: x-small">${from.toLocaleString()} - ${to.toLocaleTimeString()}</span>
+                    <iframe src="/dash/map?${new URLSearchParams(params)}"></iframe>
+                `
             }
         }
     };
@@ -109,31 +115,34 @@
         if (response.ok && responseStops.ok) {
             const trips = await response.json()
             const stops = await responseStops.json()
-            options.series = _devices.map(d => (
-                {
+            options.series = _devices.map(d => ({
                     name: 'dummy',
                     data: [{x: d.name}]
-                })).concat([
-                {
-                    color: palette(undefined, undefined).primary.main,
-                    name: 'Stops',
-                    data: stops.map(s => (
-                        {
-                            x: _devices.find(d => d.id === s.deviceId).name,
-                            y: [new Date(s.startTime).getTime(), new Date(s.endTime).getTime()]
-                        }
-                    ))
-                },
+                }))
+                .concat([
                     {
-                    color: palette(undefined, undefined).secondary.main,
-                    name: 'Trips',
-                    data: trips.map(s => (
-                        {
-                            x: _devices.find(d => d.id === s.deviceId).name,
-                            y: [new Date(s.startTime).getTime(), new Date(s.endTime).getTime()]
-                        }
-                    ))
-                }])
+                        color: palette(undefined, undefined).primary.main,
+                        name: 'Stops',
+                        data: stops.map(s => (
+                            {
+                                x: _devices.find(d => d.id === s.deviceId).name,
+                                y: [new Date(s.startTime).getTime(), new Date(s.endTime).getTime()],
+                                deviceId: s.deviceId
+                            }
+                        ))
+                    },
+                    {
+                        color: palette(undefined, undefined).secondary.main,
+                        name: 'Trips',
+                        data: trips.map(s => (
+                            {
+                                x: _devices.find(d => d.id === s.deviceId).name,
+                                y: [new Date(s.startTime).getTime(), new Date(s.endTime).getTime()],
+                                deviceId: s.deviceId
+                            }
+                        ))
+                    }
+                ])
         }
         loadingTrips.set(false)
     }
