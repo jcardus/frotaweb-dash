@@ -52,6 +52,7 @@
             type: 'solid'
         },
         xaxis: {
+            datetimeUTC: false,
             min: 0,
             max: 0,
             type: 'datetime'
