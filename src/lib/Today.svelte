@@ -30,11 +30,8 @@
         chart: {
             type: 'rangeBar',
             height: '100%',
-            toolbar: {
-                show: false,
-            },
             zoom: {
-                enabled: false
+                enabled: true
             }
         },
         plotOptions: {

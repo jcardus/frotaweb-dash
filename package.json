@@ -3,7 +3,7 @@
 	"version": "1.0.7",
 	"type": "module",
 	"scripts": {
-		"dev": "vite dev",
+		"dev": "./prebuild.sh && vite dev",
 		"build": "./prebuild.sh && vite build",
 		"preview": "vite preview",
 		"lint": "eslint ."
