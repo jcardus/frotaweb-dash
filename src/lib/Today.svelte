@@ -115,11 +115,8 @@
         if (response.ok && responseStops.ok) {
             const trips = await response.json()
             const stops = await responseStops.json()
-            options.series = _devices.map(d => ({
-                    name: 'dummy',
-                    data: [{x: d.name}]
-                }))
-                .concat([
+            options.series = [
+
                     {
                         color: palette(undefined, undefined).primary.main,
                         name: 'Stops',
@@ -142,12 +139,11 @@
                             }
                         ))
                     }
-                ])
+                ]
         }
         loadingTrips.set(false)
     }
 </script>
 
-<div class="rounded-lg shadow-md bg-gray-200 h-full">
-    <div bind:this={div}></div>
+<div bind:this={div} class="rounded-lg shadow-md bg-gray-200 h-full">
 </div>
