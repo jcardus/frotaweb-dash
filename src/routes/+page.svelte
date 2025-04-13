@@ -54,7 +54,7 @@
                         <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-gray-600"></div>
                     </div>
                 {/if}
-                <Today {positions} {devices} title={t('Atividade hoje')}></Today>
+                <Today {positions} {devices} title={t('Atividade')}></Today>
             </div>
         </div>
         <Grid {groups} {devices} {positions}></Grid>

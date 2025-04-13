@@ -5,7 +5,7 @@ export default {
         'Última comunicação': 'Ultima comunicación',
         'Ultima posição / nível de bateria': 'Ultima posición / nivel de batería',
         'Movimento': 'Movimiento',
-        'Atividade hoje': 'Actividad hoy dia',
+        'Atividade': 'Actividad',
         'A Carregar': 'Cargando',
         odometer: 'Cuentakilómetros',
         'Hodômetro / Horímetro': 'Cuentakilómetros / Contador de horas',
