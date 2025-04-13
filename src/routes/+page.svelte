@@ -35,6 +35,7 @@
     import DeviceAlarm from "$lib/DeviceAlarm.svelte";
     import DeviceIgnitionDonut from "$lib/DeviceIgnitionDonut.svelte";
     import Today from "$lib/Today.svelte";
+    import Loading from "$lib/components/Loading.svelte";
     let {data} = $props()
 
 </script>
@@ -55,9 +56,7 @@
                     'relative col-span-2 grid-cols-subgrid gap-3 w-full'
                 }">
                 {#if _loadingTrips}
-                    <div class="absolute inset-0 flex items-center justify-center bg-gray-200 bg-opacity-75 z-10">
-                        <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-gray-600"></div>
-                    </div>
+                    <Loading></Loading>
                 {/if}
                 <Today {positions} {devices} title={t('Atividade')}></Today>
             </div>
