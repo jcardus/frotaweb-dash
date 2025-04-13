@@ -9,7 +9,7 @@
     import {t} from './i18n.js'
     import {loadingTrips} from "$lib/store.js";
     const {title, devices} = $props()
-    let _devices = devices.sort((a, b) => a.name.localeCompare(b.name)).slice(0, 5)
+    let _devices = devices.sort((a, b) => a.name.localeCompare(b.name)).slice(0, 20)
     const options = {
         noData: {
             text: t('A Carregar') + '...',
@@ -52,10 +52,10 @@
             type: 'solid'
         },
         xaxis: {
-            datetimeUTC: false,
             min: 0,
             max: 0,
-            type: 'datetime'
+            type: 'datetime',
+            labels: {datetimeUTC: false}
         },
         yaxis: {
             show: false
