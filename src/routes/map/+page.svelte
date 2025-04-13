@@ -3,7 +3,6 @@
     import polyline from '@mapbox/polyline';
     const apiKey = import.meta.env.VITE_GOOGLE_API_KEY
 
-    export const ssr = false
     function buildGoogleStaticMapURL() {
         const baseUrl = "https://maps.googleapis.com/maps/api/staticmap?";
         const size = "size=300x200";
