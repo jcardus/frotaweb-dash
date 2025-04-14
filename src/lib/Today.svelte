@@ -80,7 +80,7 @@
                 params.from =  from.toISOString()
                 params.to =  to.toISOString()
 
-                return `<iframe src="/dash/map?${new URLSearchParams(params)}" class="w-[300px] h-[200px]"></iframe>`
+                return `<iframe src="/dash/map?${new URLSearchParams(params)}" class="w-[300px] h-[250px]"></iframe>`
             }
         }
     };
