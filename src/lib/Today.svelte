@@ -23,12 +23,18 @@
                 fontFamily: undefined
             },
         },
-        series: [],
+        series: _devices.map(d => ({
+                name: 'dummy',
+                data: [{x: d.name}]
+            })),
         title: {
             text: title,
             align: 'left'
         },
         chart: {
+            animations: {
+                enabled: false,
+            },
             events: {
                 zoomed: (chartContext, { xaxis }) => {
                     from = xaxis.min
@@ -108,58 +114,58 @@
     }
 
     $effect(async () => {
-        await getTrips(from, to)
         options.xaxis.min = from
         options.xaxis.max = to
-        updateChart()
+        await getTrips(from, to)
     });
     const getTrips = async (_from, _to) => {
         loadingTrips.set(true)
-        const response = await fetch(
-            `/api/reports/trips?${_devices.map(d => `deviceId=${d.id}`).join('&')
-            }&from=${new Date(_from || from).toISOString()}&to=${new Date(_to || to).toISOString()}`,
-            {
-                headers: {Accept: 'application/json'},
-            }
-        )
-        const responseStops = await fetch(
-            `/api/reports/stops?${_devices.map(d => `deviceId=${d.id}`).join('&')
-            }&from=${new Date(from).toISOString()}&to=${new Date(to).toISOString()}`,
-            {
-                headers: {Accept: 'application/json'},
-            }
-        )
-        if (response.ok && responseStops.ok) {
-            const trips = await response.json()
-            const stops = await responseStops.json()
-            // include empty series
-            options.series = _devices.map(d => ({
-                name: 'dummy',
-                data: [{x: d.name}]
-            })).concat([
+        for(const d of _devices) {
+            const response = await fetch(
+                `/api/reports/trips?deviceId=${d.id
+                    }&from=${new Date(_from || from).toISOString()}&to=${new Date(_to || to).toISOString()}`,
+                {
+                    headers: {Accept: 'application/json'},
+                }
+            )
+            const responseStops = await fetch(
+                `/api/reports/stops?deviceId=${d.id
+                    }&from=${new Date(from).toISOString()}&to=${new Date(to).toISOString()}`,
+                {
+                    headers: {Accept: 'application/json'},
+                }
+            )
+            if (response.ok && responseStops.ok) {
+                const trips = await response.json()
+                const stops = await responseStops.json()
+                options.series.push(
                     {
                         color: palette(undefined, undefined).primary.main,
-                        name: 'Stops',
                         data: stops.map(s => (
                             {
-                                x: _devices.find(d => d.id === s.deviceId).name,
+                                x: d.name,
                                 y: [new Date(s.startTime).getTime(), new Date(s.endTime).getTime()],
                                 deviceId: s.deviceId
                             }
-                        ))
-                    },
+                        )).filter(e => !options.series.map(s => s.data).flat().some(
+                            d => d.deviceId === e.deviceId && d.y[0] === e.y[0]))
+                    }
+                )
+                options.series.push(
                     {
                         color: palette(undefined, undefined).secondary.main,
-                        name: 'Trips',
                         data: trips.map(s => (
                             {
-                                x: _devices.find(d => d.id === s.deviceId).name,
+                                x: d.name,
                                 y: [new Date(s.startTime).getTime(), new Date(s.endTime).getTime()],
                                 deviceId: s.deviceId
                             }
-                        ))
+                        )).filter(e => !options.series.map(s => s.data).flat().some(
+                            d => d.deviceId === e.deviceId && d.y[0] === e.y[0]))
                     }
-                ])
+                )
+            }
+            updateChart()
         }
         loadingTrips.set(false)
     }
