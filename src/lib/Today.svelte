@@ -143,55 +143,42 @@
         // options.xaxis.max = to
         await getTrips(from, to)
     });
+
+    async function addSeries(d, _from, _to, entity) {
+        const response = await fetch(
+            `/api/reports/${entity}?deviceId=${d.id
+            }&from=${new Date(_from || from).toISOString()}&to=${new Date(_to || to).toISOString()}`,
+            {
+                headers: {Accept: 'application/json'},
+            }
+        )
+        if (response.ok) {
+            const data = await response.json()
+            options.series.push(
+                {
+                    color: entity === 'trips' ?
+                        palette(undefined, undefined).secondary.main :
+                        palette(undefined, undefined).primary.main,
+                    data: data.map(s => (
+                        {
+                            x: d.name,
+                            y: [new Date(s.startTime).getTime(), new Date(s.endTime).getTime()],
+                            deviceId: s.deviceId
+                        }
+                    )).filter(e => !options.series.map(s => s.data).flat().some(
+                        d => d.deviceId === e.deviceId && d.y[0] === e.y[0]))
+                }
+            )
+        }
+        updateChart()
+    }
+
     const getTrips = async (_from, _to) => {
         for(const d of _devices) {
             loadingTrips.set(true)
-            const response = await fetch(
-                `/api/reports/trips?deviceId=${d.id
-                    }&from=${new Date(_from || from).toISOString()}&to=${new Date(_to || to).toISOString()}`,
-                {
-                    headers: {Accept: 'application/json'},
-                }
-            )
-            const responseStops = await fetch(
-                `/api/reports/stops?deviceId=${d.id
-                    }&from=${new Date(from).toISOString()}&to=${new Date(to).toISOString()}`,
-                {
-                    headers: {Accept: 'application/json'},
-                }
-            )
-            if (response.ok && responseStops.ok) {
-                const trips = await response.json()
-                const stops = await responseStops.json()
-                options.series.push(
-                    {
-                        color: palette(undefined, undefined).primary.main,
-                        data: stops.map(s => (
-                            {
-                                x: d.name,
-                                y: [new Date(s.startTime).getTime(), new Date(s.endTime).getTime()],
-                                deviceId: s.deviceId
-                            }
-                        )).filter(e => !options.series.map(s => s.data).flat().some(
-                            d => d.deviceId === e.deviceId && d.y[0] === e.y[0]))
-                    }
-                )
-                options.series.push(
-                    {
-                        color: palette(undefined, undefined).secondary.main,
-                        data: trips.map(s => (
-                            {
-                                x: d.name,
-                                y: [new Date(s.startTime).getTime(), new Date(s.endTime).getTime()],
-                                deviceId: s.deviceId
-                            }
-                        )).filter(e => !options.series.map(s => s.data).flat().some(
-                            d => d.deviceId === e.deviceId && d.y[0] === e.y[0]))
-                    }
-                )
-            }
+            await addSeries(d, _from, _to, 'trips');
+            await addSeries(d, _from, _to, 'stops');
             loadingTrips.set(false)
-            updateChart()
         }
     }
 </script>
