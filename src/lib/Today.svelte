@@ -5,7 +5,7 @@
     const now = new Date();
     const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime()
     let from = $state(midnight)
-    let to = $state(midnight + 1000 * 60 * 60 * 24)
+    let to = $state(new Date().getTime())
     import {t} from './i18n.js'
     import {loadingTrips, activityFullScreen} from "$lib/store.js";
     const {title, devices} = $props()
@@ -21,6 +21,36 @@
                 color: undefined,
                 fontSize: '24px',
                 fontFamily: undefined
+            },
+        },
+        grid: {
+            show: true,
+            borderColor: 'black',
+            strokeDashArray: 50,
+            position: 'back',
+            xaxis: {
+                lines: {
+                    show: true
+                }
+            },
+            yaxis: {
+                lines: {
+                    show: true
+                }
+            },
+            row: {
+                colors: undefined,
+                opacity: 0.5
+            },
+            column: {
+                colors: undefined,
+                opacity: 0.5
+            },
+            padding: {
+                top: 0,
+                right: 0,
+                bottom: 0,
+                left: 0
             },
         },
         series: _devices.map(d => ({
@@ -42,6 +72,13 @@
                         to = xaxis.max
                     } else {
                         console.log("🟢 User drew a selection");
+                    }
+                },
+                scrolled: (chartContext, { xaxis }) => {
+                    console.log("🟢 User scrolled", xaxis.min, xaxis.max);
+                    if (xaxis.min<from || xaxis.max>to) {
+                        // from = xaxis.min
+                        // to = xaxis.max
                     }
                 }
             },
@@ -73,8 +110,6 @@
             type: 'solid'
         },
         xaxis: {
-            min: 0,
-            max: 0,
             type: 'datetime',
             labels: {datetimeUTC: false}
         },
@@ -102,8 +137,8 @@
         chart = new ApexCharts(div, options)
         await chart.render()
         await getTrips()
-        options.xaxis.min = from
-        options.xaxis.max = to
+        // options.xaxis.min = from
+        // options.xaxis.max = to
         updateChart()
     })
 
@@ -114,8 +149,8 @@
     }
 
     $effect(async () => {
-        options.xaxis.min = from
-        options.xaxis.max = to
+        // options.xaxis.min = from
+        // options.xaxis.max = to
         await getTrips(from, to)
     });
     const getTrips = async (_from, _to) => {
