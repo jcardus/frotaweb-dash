@@ -22,3 +22,10 @@ vite.config.ts.timestamp-*
 
 # Sentry Config File
 .env.sentry-build-plugin
+/src/lib/palette.js
+/.idea/inspectionProfiles/Project_Default.xml
+/.idea/.gitignore
+/.idea/frotaweb-dash.iml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/vcs.xml

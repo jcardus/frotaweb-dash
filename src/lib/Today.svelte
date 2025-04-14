@@ -80,10 +80,7 @@
                 params.from =  from.toISOString()
                 params.to =  to.toISOString()
 
-                return `
-                    <span style="padding: 5px; font-size: x-small">${from.toLocaleString()} - ${to.toLocaleTimeString()}</span>
-                    <iframe src="/dash/map?${new URLSearchParams(params)}" class="w-[300px] h-[200px]"></iframe>
-                `
+                return `<iframe src="/dash/map?${new URLSearchParams(params)}" class="w-[300px] h-[200px]"></iframe>`
             }
         }
     };

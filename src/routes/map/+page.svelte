@@ -19,7 +19,12 @@
         return `${baseUrl}${size}&${markers}&${path}&key=${apiKey}`
     }
     let coordinates = $state([])
+    let from = $state('')
+    let to = $state('')
     onMount(async () => {
+        const params = new URLSearchParams(window.location.search)
+        from = new Date(params.get('from'))
+        to = new Date(params.get('to'))
         const response = await fetch('/api/positions'+window.location.search)
         if (response.ok) {
             coordinates = await response.json()
@@ -28,6 +33,7 @@
 </script>
 
 <div>
+    <span style="padding: 5px; font-size: x-small">${from.toLocaleString()} - ${to.toLocaleTimeString()}</span>
     {#if coordinates.length}
         <img src="{buildGoogleStaticMapURL()}" alt="map" >
     {:else}
