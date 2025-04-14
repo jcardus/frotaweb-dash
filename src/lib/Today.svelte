@@ -26,7 +26,6 @@
         grid: {
             show: true,
             borderColor: 'black',
-            strokeDashArray: 50,
             position: 'back',
             xaxis: {
                 lines: {
