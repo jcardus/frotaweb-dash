@@ -33,6 +33,10 @@
                 zoomed: (chartContext, { xaxis }) => {
                     from = xaxis.min
                     to = xaxis.max
+                },
+                selection: (chartContext, { xaxis }) => {
+                    from = xaxis.min
+                    to = xaxis.max
                 }
             },
             type: 'rangeBar',
