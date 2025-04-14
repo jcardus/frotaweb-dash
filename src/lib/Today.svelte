@@ -37,12 +37,12 @@
             },
             events: {
                 zoomed: (chartContext, { xaxis }) => {
-                    from = xaxis.min
-                    to = xaxis.max
-                },
-                selection: (chartContext, { xaxis }) => {
-                    from = xaxis.min
-                    to = xaxis.max
+                    if (xaxis.min<from || xaxis.max>to) {
+                        from = xaxis.min
+                        to = xaxis.max
+                    } else {
+                        console.log("🟢 User drew a selection");
+                    }
                 }
             },
             type: 'rangeBar',
@@ -119,8 +119,8 @@
         await getTrips(from, to)
     });
     const getTrips = async (_from, _to) => {
-        loadingTrips.set(true)
         for(const d of _devices) {
+            loadingTrips.set(true)
             const response = await fetch(
                 `/api/reports/trips?deviceId=${d.id
                     }&from=${new Date(_from || from).toISOString()}&to=${new Date(_to || to).toISOString()}`,
@@ -165,9 +165,9 @@
                     }
                 )
             }
+            loadingTrips.set(false)
             updateChart()
         }
-        loadingTrips.set(false)
     }
 </script>
 
