@@ -25,8 +25,7 @@
         },
         grid: {
             show: true,
-            borderColor: 'black',
-            position: 'back',
+            borderColor: 'white',
             xaxis: {
                 lines: {
                     show: true
@@ -36,14 +35,6 @@
                 lines: {
                     show: true
                 }
-            },
-            row: {
-                colors: undefined,
-                opacity: 0.5
-            },
-            column: {
-                colors: undefined,
-                opacity: 0.5
             },
             padding: {
                 top: 0,
