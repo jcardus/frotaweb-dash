@@ -61,7 +61,7 @@
                         from = xaxis.min
                         to = xaxis.max
                     } else {
-                        console.log("🟢 User drew a selection");
+                        console.log("User drew a selection")
                     }
                 },
                 scrolled: (chartContext, { xaxis }) => {
@@ -127,20 +127,9 @@
         chart = new ApexCharts(div, options)
         await chart.render()
         await getTrips()
-        // options.xaxis.min = from
-        // options.xaxis.max = to
-        updateChart()
     })
 
-    function updateChart() {
-        if (chart) {
-            chart.updateOptions(options, true, true)
-        }
-    }
-
     $effect(async () => {
-        // options.xaxis.min = from
-        // options.xaxis.max = to
         await getTrips(from, to)
     });
 
@@ -154,7 +143,7 @@
         )
         if (response.ok) {
             const data = await response.json()
-            options.series.push(
+            await chart.appendSeries(
                 {
                     color: entity === 'trips' ?
                         palette(undefined, undefined).secondary.main :
@@ -170,7 +159,7 @@
                 }
             )
         }
-        updateChart()
+
     }
 
     const getTrips = async (_from, _to) => {
@@ -181,7 +170,29 @@
             loadingTrips.set(false)
         }
     }
+    function toDateInputValue(ts) {
+        const date = new Date(ts)
+        const offsetDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000)
+        return offsetDate.toISOString().slice(0, 10)
+    }
+    function fromDateInputValue(value) {
+        const [year, month, day] = value.split('-').map(Number)
+        return new Date(year, month - 1, day).getTime()
+    }
 </script>
 
 <div bind:this={div} class="rounded-lg shadow-md bg-gray-200 h-full w-full">
 </div>
+<div class="absolute top-0 w-full flex items-center justify-center">
+    <div class="date-range">
+    <input type="date" id="start-date" class="w-24 bg-gray-200 text-xs"
+           value={toDateInputValue(from)}
+           onchange={(e) => from = fromDateInputValue(e.target.value)}
+    />
+    <input type="date" id="end-date" class="w-24 bg-gray-200 text-xs"
+           value={toDateInputValue(to)}
+           onchange={(e) => to = fromDateInputValue(e.target.value)}
+    />
+</div></div>
+
+
