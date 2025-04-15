@@ -179,6 +179,9 @@
         const [year, month, day] = value.split('-').map(Number)
         return new Date(year, month - 1, day).getTime()
     }
+    const onChangeTo = e => (
+        to = fromDateInputValue(e.target.value)
+    )
 </script>
 
 <div bind:this={div} class="rounded-lg shadow-md bg-gray-200 h-full w-full">
@@ -191,7 +194,7 @@
     />
     <input type="date" id="end-date" class="w-24 bg-gray-200 text-xs"
            value={toDateInputValue(to)}
-           onchange={(e) => to = fromDateInputValue(e.target.value)}
+           onchange={onChangeTo}
     />
 </div></div>
 
