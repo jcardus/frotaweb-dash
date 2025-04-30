@@ -2,13 +2,15 @@
     import {fromNow, getHours, getOdometer} from "$lib/utils.js";
     const {device, groups, grouped, closedGroups, filter, group, index} = $props()
     async function fetchAddress(p) {
-        if (p.address) {
-            return p.address
-        }
-        const response = await fetch(`/api/server/geocode?${new URLSearchParams(p).toString()}`)
-        if (response.ok) {
-            p.address = await response.text()
-            return p.address
+        if (p) {
+            if (p.address) {
+                return p.address
+            }
+            const response = await fetch(`/api/server/geocode?${new URLSearchParams(p).toString()}`)
+            if (response.ok) {
+                p.address = await response.text()
+                return p.address
+            }
         }
         return ''
     }
