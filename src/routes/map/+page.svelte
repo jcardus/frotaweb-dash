@@ -75,13 +75,18 @@
                 {#if coordinates.length}
                     <span class="truncate">{coordinates[coordinates.length-1].address}</span>
                 {/if}
-                <span class="font-mono text-xs text-gray-500 truncate">{to.toLocaleTimeString()} ({formatDist(from, to)}) {dist.toFixed(1)}km</span>
+                <span class="font-mono text-xs text-gray-500 truncate">{to.toLocaleTimeString()} ({formatDist(from, to)})</span>
             </div>
         </div>
     </div>
     {/if}
     {#if coordinates.length}
-        <img src="{buildGoogleStaticMapURL()}" alt="map" >
+        <div class="relative" style="width: {width}px;">
+            <img src="{buildGoogleStaticMapURL()}" alt="map" style="width: 100%; height: auto;"/>
+            <div class="absolute top-2 left-2 bg-white bg-opacity-80 font-bold  text-xs p-1 rounded">
+                {dist.toFixed(1)}km
+            </div>
+        </div>
     {:else}
         <Loading></Loading>
     {/if}
