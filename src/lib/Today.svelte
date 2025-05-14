@@ -107,9 +107,6 @@
             show: false,
         },
         tooltip: {
-            style: {
-                width: '1000px'
-            },
             custom: function(opts) {
                 const from = new Date(opts.y1)
                 const to = new Date(opts.y2)
