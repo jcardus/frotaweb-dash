@@ -35,16 +35,18 @@
 <div>
     {#if from && to}
     <div class="flex items-center text-sm text-gray-700 gap-2 mb-2 p-2">
-        <span class="flex items-center gap-1">
+        <div class="flex items-center gap-1">
             <svg width="24" height="24" viewBox="0 0 24 24">
               <circle cx="12" cy="12" r="10" fill={colorSecondary} />
               <text x="12" y="16" text-anchor="middle" fill="white" font-size="12" font-family="Arial">A</text>
             </svg>
-            {#if coordinates.length}
-                <span>{coordinates[0].address}</span>
-            {/if}
-            <span class="font-mono text-xs text-gray-500">{from.toLocaleString()}</span>
-        </span>
+            <div class="flex flex-col max-w-[150px]">
+                {#if coordinates.length}
+                    <span class="truncate overflow-hidden whitespace-nowrap text-xs">{coordinates[0].address}</span>
+                {/if}
+                <span class="font-mono text-xs text-gray-500">{from.toLocaleString()}</span>
+            </div>
+        </div>
 
         <span class="flex items-center gap-1">
             <svg width="24" height="24" viewBox="0 0 24 24">
