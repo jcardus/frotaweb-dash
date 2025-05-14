@@ -20,6 +20,10 @@ const getLocale = () => {
     }
     return locales[userLang]
 };
+export const formatDist = (date1, date2) => {
+    return formatDistance(date1, date2, {locale: getLocale()})
+}
+
 
 export const fromNow = (date) => {
     return formatDistance(date, new Date(), {locale: getLocale(), addSuffix: true})

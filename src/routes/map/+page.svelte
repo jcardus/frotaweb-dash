@@ -5,8 +5,8 @@
     import palette from "$lib/palette.js";
     import { point } from '@turf/helpers';
     import distance from '@turf/distance';
-    import {formatDistance} from "date-fns";
     import {panelWidth} from "$lib/store.js";
+    import {formatDist} from "$lib/utils.js";
     const apiKey = import.meta.env.VITE_GOOGLE_API_KEY
     const colorPrimary = palette(undefined, undefined).primary.main
     const colorSecondary = palette(undefined, undefined).secondary.main
@@ -75,7 +75,7 @@
                 {#if coordinates.length}
                     <span class="truncate">{coordinates[coordinates.length-1].address}</span>
                 {/if}
-                <span class="font-mono text-xs text-gray-500 truncate">{to.toLocaleTimeString()} ({formatDistance(from, to)}) {dist.toFixed(1)}km</span>
+                <span class="font-mono text-xs text-gray-500 truncate">{to.toLocaleTimeString()} ({formatDist(from, to)}) {dist.toFixed(1)}km</span>
             </div>
         </div>
     </div>
