@@ -7,7 +7,7 @@
     let from = $state(midnight)
     let to = $state(new Date().getTime())
     import {t} from './i18n.js'
-    import {loadingTrips, activityFullScreen} from "$lib/store.js";
+    import {loadingTrips, activityFullScreen, panelWidth} from "$lib/store.js";
     const {title, devices} = $props()
     let _devices = devices.sort((a, b) => a.name.localeCompare(b.name)).slice(0, 20)
     const options = {
@@ -115,7 +115,7 @@
                 params.from =  from.toISOString()
                 params.to =  to.toISOString()
 
-                return `<iframe src="/dash/map?${new URLSearchParams(params)}" class="w-[300px] h-[250px]"></iframe>`
+                return `<iframe src="/dash/map?${new URLSearchParams(params)}" class="w-[${panelWidth}px] h-[250px]"></iframe>`
             }
         }
     };
