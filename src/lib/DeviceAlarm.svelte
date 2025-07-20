@@ -32,7 +32,7 @@
                     showGrid.set(true)
                     const key = Object.keys(stateCounts)[opts.dataPointIndex]
                     gridFilter.set({
-                        filter: stateCounts[key].map(id => devices.find(d => d.id === id).name),
+                        filter: stateCounts[key]?.map(id => devices.find(d => d.id === id).name),
                         index: opts.dataPointIndex,
                         filterValue: key
                     })
