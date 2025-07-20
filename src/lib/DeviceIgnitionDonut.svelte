@@ -25,7 +25,7 @@
                 click: function(event, chartContext, opts) {
                     showGrid.set(true)
                     gridFilter.set({
-                        filter: stateCounts[Object.keys(stateCounts)[opts.dataPointIndex]].map(p => devices.find(d => d.id === p).name),
+                        filter: stateCounts[Object.keys(stateCounts)[opts.dataPointIndex]]?.map(p => devices.find(d => d.id === p).name),
                         index: opts.dataPointIndex,
                         filterValue: Object.keys(stateCounts)[opts.dataPointIndex]
                     })
