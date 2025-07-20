@@ -7,6 +7,8 @@ const locales = {
     'es-ES': es,
     'es': es,
     'es-CL': es,
+    'es-US': es,
+    'es-419': es,
     'pt-BR': ptBR,
     'pt-PT': pt,
     'pt': pt
