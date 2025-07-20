@@ -6,7 +6,7 @@
 
     const {devices} = $props()
     let stateCounts = {Online: [], '12 horas': [], '24 horas': [], '36 horas': [], '48 horas': [], '+ 48 horas': []};
-    devices.forEach(device => {
+    devices && devices.forEach(device => {
         const lastUpdate = new Date().getTime() - new Date(device.lastUpdate).getTime()
         if (device.status === 'online') stateCounts.Online.push(device.name)
         else if (lastUpdate < 12*3600*1000) stateCounts['12 horas'].push(device.name)
