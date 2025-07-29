@@ -86,7 +86,7 @@
                     <thead class="text-xs text-gray-700 uppercase">
                     <tr class="no-print">
                         <td class="px-6" colspan="3">
-                            {devices.filter(d => filter.length === 0 || filter.includes(d.name))?.length} / {devices.length}
+                            {devices.filter(d => filter.length === 0 || filter.includes(d.name))?.length} / {devices?.length}
                             <span class="inline-flex items-center rounded bg-gray-50 px-1 py-1 text-xs font-medium text-gray-600 ring-1 ring-gray-500/10 ring-inset {!filter.length && 'hidden'}">
                                 {filterValue}
                                 <button type="button" onclick="{() => filter.length=0}" class="inline-flex items-center rounded-md px-1 py-1 text-xs ring-1 ring-gray-300 ring-inset">
