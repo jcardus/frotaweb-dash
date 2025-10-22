@@ -190,7 +190,7 @@
                                 </td>
                             </tr>
                             {#each devices
-                                .filter(d => filter.length === 0 || filter.includes(d.name))
+                                .filter(d => !filter || filter.length === 0 || filter.includes(d.name))
                                 .filter(d => d.groupId === group.id)
                                 .sort(sort)
                                     as device}
