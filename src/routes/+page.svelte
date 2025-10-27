@@ -36,6 +36,7 @@
     import DeviceIgnitionDonut from "$lib/DeviceIgnitionDonut.svelte";
     import Today from "$lib/Today.svelte";
     import Loading from "$lib/components/Loading.svelte";
+    import Vis from "../lib/Vis.svelte";
     let {data} = $props()
 
 </script>
@@ -58,7 +59,7 @@
                 {#if _loadingTrips}
                     <Loading></Loading>
                 {/if}
-                <Today {positions} {devices} title={t('Atividade')}></Today>
+                <Vis {positions} {devices} title={t('Atividade')}></Vis>
             </div>
         </div>
         <Grid {groups} {devices} {positions}></Grid>
