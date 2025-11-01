@@ -8,27 +8,43 @@
     const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime()
     let from = $state(midnight)
     let to = $state(new Date().getTime())
-    const {title, devices} = $props()
+    const {devices} = $props()
     let _devices = devices.sort((a, b) => a.name.localeCompare(b.name)).slice(0, 20)
-
     const trips = new DataSet()
+    let abortController
 
     const getTrips = async () => {
-        for(const d of _devices) {
-            loadingTrips.set(true)
-            loadingDevice.set(`${d.name}: ${new Date(from).toLocaleString()} -> ${new Date(to).toLocaleString()}`)
-            await addSeries(d, from, to, 'trips');
-            // await addSeries(d, _from, _to, 'stops');
-            loadingTrips.set(false)
+        if (abortController) { abortController.abort() }
+        abortController = new AbortController()
+        return _getTrips(abortController.signal)
+    }
+
+    const _getTrips = async (signal) => {
+        try {
+            for(const d of _devices) {
+                if (signal.aborted) return
+                loadingTrips.set(true)
+                loadingDevice.set(`${d.name}: ${new Date(from).toLocaleString()} -> ${new Date(to).toLocaleString()}`)
+                await addSeries(d, from, to, 'trips', signal);
+                // await addSeries(d, _from, _to, 'stops');
+                loadingTrips.set(false)
+            }
+        } catch (error) {
+            if (error.name === 'AbortError') {
+                console.log('Request cancelled')
+            } else {
+                throw error
+            }
         }
     }
 
-    async function addSeries(d, _from, _to, entity) {
+    async function addSeries(d, _from, _to, entity, signal) {
         const response = await fetch(
             `/api/reports/${entity}?deviceId=${d.id
             }&from=${new Date(_from || from).toISOString()}&to=${new Date(_to || to).toISOString()}`,
             {
                 headers: {Accept: 'application/json'},
+                signal
             }
         )
         if (response.ok) {
