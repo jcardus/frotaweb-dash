@@ -20,7 +20,6 @@
         },
         chart: {
             type: 'donut',
-            height: 230,
             events: {
                 click: function(event, chartContext, opts) {
                     showGrid.set(true)
@@ -69,9 +68,14 @@
         }
     };
 
-    onMount(() => new ApexCharts(div, options).render());
     let div
+    onMount(() => {
+        options.chart.height = '100%'
+        options.chart.width = '100%'
+        new ApexCharts(div, options).render()
+    })
 </script>
 
-<div bind:this={div} class="flex justify-center items-center rounded-lg shadow-md bg-gray-200">
+<div class="h-full min-h-0 rounded-lg shadow-md bg-gray-200">
+    <div bind:this={div}></div>
 </div>

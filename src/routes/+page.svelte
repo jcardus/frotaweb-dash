@@ -34,7 +34,6 @@
     import DeviceTotals from "$lib/DeviceTotals.svelte";
     import DeviceAlarm from "$lib/DeviceAlarm.svelte";
     import DeviceIgnitionDonut from "$lib/DeviceIgnitionDonut.svelte";
-    import Today from "$lib/Today.svelte";
     import Loading from "$lib/components/Loading.svelte";
     import Vis from "../lib/Vis.svelte";
     let {data} = $props()
@@ -47,14 +46,16 @@
             </div>
         </div>
     {:then {devices, positions, groups}}
-        <div class="grid grid-cols-3 gap-3 p-3 h-lvh">
+        <div class="grid grid-cols-3 grid-rows-3 gap-3 p-3 h-lvh">
             <DeviceStatesGroupedDonut {devices}></DeviceStatesGroupedDonut>
             <DeviceIgnitionDonut {positions} {devices}></DeviceIgnitionDonut>
             <DeviceAlarm {positions} {devices}></DeviceAlarm>
-            <DeviceTotals {positions} {devices} title={t('Hodômetro / Horímetro')}></DeviceTotals>
+            <div class="row-span-2 h-full">
+                <DeviceTotals {positions} {devices} title={t('Hodômetro / Horímetro')}></DeviceTotals>
+            </div>
             <div class="{_activityFullScreen ?
                     'absolute pb-6 h-full w-full pr-6' :
-                    'relative col-span-2 grid-cols-subgrid gap-3 w-full'
+                    'relative col-span-2 row-span-2 grid-cols-subgrid gap-3 w-full'
                 }">
                 {#if _loadingTrips}
                     <Loading></Loading>

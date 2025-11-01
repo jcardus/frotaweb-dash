@@ -1,7 +1,7 @@
 <script>
     import { DataSet, Timeline } from 'vis-timeline/standalone';
     import {onMount} from "svelte";
-    import {loadingTrips} from "$lib/store.js";
+    import {loadingDevice, loadingTrips} from "$lib/store.js";
 
     let container
     const now = new Date();
@@ -11,21 +11,17 @@
     const {title, devices} = $props()
     let _devices = devices.sort((a, b) => a.name.localeCompare(b.name)).slice(0, 20)
 
-
-
-
     const trips = new DataSet()
 
-    const getTrips = async (_from, _to) => {
+    const getTrips = async () => {
         for(const d of _devices) {
             loadingTrips.set(true)
-            await addSeries(d, _from, _to, 'trips');
+            loadingDevice.set(d.name)
+            await addSeries(d, from, to, 'trips');
             // await addSeries(d, _from, _to, 'stops');
             loadingTrips.set(false)
         }
     }
-
-    let id =0
 
     async function addSeries(d, _from, _to, entity) {
         const response = await fetch(
@@ -51,11 +47,11 @@
             console.log(start, end)
             from = start
             to = end
-            getTrips(start, end)
+            getTrips()
         })
         setTimeout(() => timeline.setWindow(from, to), 1000)
 
     })
 
 </script>
-<div bind:this={container} class="rounded-lg shadow-md bg-gray-200 h-full w-full"></div>
+<div bind:this={container} class="rounded-lg shadow-md bg-gray-200 h-full w-full p-2"></div>

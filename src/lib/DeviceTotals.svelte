@@ -74,6 +74,8 @@
     };
     let div
     onMount(() => {
+            options.chart.height = '100%'
+            options.chart.width = '100%'
             const chart = new ApexCharts(div, options)
             chart.render()
             setTimeout(() => chart.updateOptions({}, true), 1)
@@ -81,6 +83,6 @@
     )
 </script>
 
-<div class="rounded-lg shadow-md bg-gray-200">
+<div class="rounded-lg shadow-md bg-gray-200 h-full">
     <div bind:this={div}></div>
 </div>
