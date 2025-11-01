@@ -16,7 +16,7 @@
     const getTrips = async () => {
         for(const d of _devices) {
             loadingTrips.set(true)
-            loadingDevice.set(d.name)
+            loadingDevice.set(`${d.name}: ${new Date(from).toLocaleString()} -> ${new Date(to).toLocaleString()}`)
             await addSeries(d, from, to, 'trips');
             // await addSeries(d, _from, _to, 'stops');
             loadingTrips.set(false)
@@ -41,7 +41,9 @@
             new DataSet(_devices.map(d => ({id: d.id, content: d.name}))), {
             height: '100%',
             verticalScroll: true,
-            stack: false
+            stack: false,
+            min: new Date() - 1000 * 60 * 60 * 24 * 30 * 12,
+            max: new Date()
         })
         timeline.on('rangechanged', ({start, end}) => {
             console.log(start, end)
