@@ -25,7 +25,7 @@
                 if (signal.aborted) return
                 loadingTrips.set(true)
                 loadingDevice.set(`${d.name}: ${new Date(from).toLocaleString()} -> ${new Date(to).toLocaleString()}`)
-                await addSeries(d, from, to, 'trips', signal);
+                await addSeries(d, from, to, 'events', signal);
                 // await addSeries(d, _from, _to, 'stops');
                 loadingTrips.set(false)
             }
@@ -40,7 +40,7 @@
 
     async function addSeries(d, _from, _to, entity, signal) {
         const response = await fetch(
-            `/api/reports/${entity}?deviceId=${d.id
+            `/api/reports/${entity}?type=deviceStopped&type=deviceMoving&deviceId=${d.id
             }&from=${new Date(_from || from).toISOString()}&to=${new Date(_to || to).toISOString()}`,
             {
                 headers: {Accept: 'application/json'},
@@ -49,7 +49,17 @@
         )
         if (response.ok) {
             const _trips = await response.json()
-            trips.add(_trips.map(t => ({group: t.deviceId, start: new Date(t.startTime), end: new Date(t.endTime)})))
+            const pairedTrips = []
+            for (let i = 0; i < _trips.length - 1; i++) {
+                if (_trips[i].type === 'deviceMoving' && _trips[i + 1].type === 'deviceStopped') {
+                    pairedTrips.push({
+                        group: _trips[i].deviceId,
+                        start: new Date(_trips[i].eventTime),
+                        end: new Date(_trips[i + 1].eventTime)
+                    })
+                }
+            }
+            trips.add(pairedTrips)
         }
     }
     onMount(() => {
@@ -62,7 +72,6 @@
             max: new Date()
         })
         timeline.on('rangechanged', ({start, end}) => {
-            console.log(start, end)
             from = start
             to = end
             getTrips()
