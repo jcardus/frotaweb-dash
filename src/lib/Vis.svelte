@@ -71,5 +71,25 @@
 
     })
 
+    function toDateInputValue(ts) {
+        const date = new Date(ts)
+        const offsetDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000)
+        return offsetDate.toISOString().slice(0, 10)
+    }
+    function fromDateInputValue(value) {
+        const [year, month, day] = value.split('-').map(Number)
+        return new Date(year, month - 1, day).getTime()
+    }
 </script>
-<div bind:this={container} class="rounded-lg shadow-md bg-gray-200 h-full w-full p-2"></div>
+<div bind:this={container} class="rounded-lg shadow-md bg-gray-200 h-full w-full p-2">
+    <div class="flex flex-row items-center justify-between absolute top-3 right-3 z-50">
+        <input type="date" id="start-date" class="w-24 bg-gray-200 text-xs"
+               value={toDateInputValue(from)}
+               onchange={(e) => from = fromDateInputValue(e.target.value)}
+        />
+        <input type="date" id="end-date" class="w-24 bg-gray-200 text-xs"
+               value={toDateInputValue(to)}
+               onchange={onChangeTo}
+        />
+    </div>
+</div>
