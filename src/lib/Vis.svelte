@@ -73,13 +73,15 @@
             min: new Date() - 1000 * 60 * 60 * 24 * 30 * 3,
             max: new Date()
         })
-        setTimeout(() => timeline.setWindow(from, to), 1000)
         timeline.on('rangechanged', ({start, end}) => {
             console.log('rangechanged', start, end)
             from = start
             to = end
             getTrips()
         })
+        const _from = from
+        const _to = to
+        requestAnimationFrame(() => timeline.setWindow(_from, _to))
     })
 
 </script>
