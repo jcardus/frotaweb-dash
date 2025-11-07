@@ -9,6 +9,7 @@ body {
     width: 450px;
 }
 
-.vis-item.vis.range.green {
- color: green
+.vis-item.vis-range.green {
+    background-color: #166534;
+    border-color: #15803d;
 }

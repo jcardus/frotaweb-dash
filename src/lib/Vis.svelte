@@ -9,7 +9,7 @@
     let from = $state(midnight)
     let to = $state(new Date().getTime())
     const {devices} = $props()
-    let _devices = devices.sort((a, b) => a.name.localeCompare(b.name)).slice(0, 20)
+    let _devices = devices && devices.sort((a, b) => a.name.localeCompare(b.name)).slice(0, 20)
     const trips = new DataSet()
     let abortController
 
@@ -25,8 +25,7 @@
                 if (signal.aborted) return
                 loadingTrips.set(true)
                 loadingDevice.set(`${d.name}: ${new Date(from).toLocaleString()} -> ${new Date(to).toLocaleString()}`)
-                await addSeries(d, from, to, 'events', signal);
-                // await addSeries(d, _from, _to, 'stops');
+                await addSeries(d, signal);
                 loadingTrips.set(false)
             }
         } catch (error) {
@@ -38,10 +37,10 @@
         }
     }
 
-    async function addSeries(d, _from, _to, entity, signal) {
+    async function addSeries(d, signal) {
         const response = await fetch(
-            `/api/reports/${entity}?type=deviceStopped&type=deviceMoving&deviceId=${d.id
-            }&from=${new Date(_from || from).toISOString()}&to=${new Date(_to || to).toISOString()}`,
+            `/api/reports/events?type=deviceStopped&type=deviceMoving&deviceId=${d.id
+            }&from=${new Date(from).toISOString()}&to=${new Date(to).toISOString()}`,
             {
                 headers: {Accept: 'application/json'},
                 signal
@@ -65,21 +64,22 @@
         }
     }
     onMount(() => {
+        if (!_devices) return
         const timeline = new Timeline(container, trips,
             new DataSet(_devices.map(d => ({id: d.id, content: d.name}))), {
             height: '100%',
             verticalScroll: true,
             stack: false,
-            min: new Date() - 1000 * 60 * 60 * 24 * 30 * 12,
+            min: new Date() - 1000 * 60 * 60 * 24 * 30 * 3,
             max: new Date()
         })
+        setTimeout(() => timeline.setWindow(from, to), 1000)
         timeline.on('rangechanged', ({start, end}) => {
+            console.log('rangechanged', start, end)
             from = start
             to = end
             getTrips()
         })
-        setTimeout(() => timeline.setWindow(from, to), 1000)
-
     })
 
 </script>
