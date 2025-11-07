@@ -8,3 +8,7 @@ body {
 .apexcharts-tooltip {
     width: 450px;
 }
+
+.vis-item.vis.range.green {
+ color: green
+}

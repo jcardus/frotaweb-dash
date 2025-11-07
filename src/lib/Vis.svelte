@@ -55,7 +55,9 @@
                     pairedTrips.push({
                         group: _trips[i].deviceId,
                         start: new Date(_trips[i].eventTime),
-                        end: new Date(_trips[i + 1].eventTime)
+                        end: new Date(_trips[i + 1].eventTime),
+                        type: 'range',
+                        className: 'green'
                     })
                 }
             }
@@ -82,3 +84,4 @@
 
 </script>
 <div bind:this={container} class="rounded-lg shadow-md bg-gray-200 h-full w-full p-2"></div>
+
