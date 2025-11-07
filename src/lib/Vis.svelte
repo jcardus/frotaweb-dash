@@ -82,6 +82,9 @@
         const _from = from
         const _to = to
         requestAnimationFrame(() => timeline.setWindow(_from, _to))
+        $effect(() => {
+            timeline.setWindow(from, to)
+        });
     })
 
     function toDateInputValue(ts) {
@@ -95,14 +98,14 @@
     }
 </script>
 <div bind:this={container} class="rounded-lg shadow-md bg-gray-200 h-full w-full p-2">
-    <div class="flex flex-row items-center justify-between absolute top-3 right-3 z-50">
+    <div class="absolute top-3 right-3 z-50">
         <input type="date" id="start-date" class="w-24 bg-gray-200 text-xs"
-               value={toDateInputValue(from)}
-               onchange={(e) => from = fromDateInputValue(e.target.value)}
+           value={toDateInputValue(from)}
+           onchange={e => from = fromDateInputValue(e.target.value)}
         />
         <input type="date" id="end-date" class="w-24 bg-gray-200 text-xs"
-               value={toDateInputValue(to)}
-               onchange={onChangeTo}
+           value={toDateInputValue(to)}
+           onchange={e => to = fromDateInputValue(e.target.value)}
         />
     </div>
 </div>
