@@ -7,7 +7,7 @@
     const now = new Date();
     const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime()
     let from = $state(midnight)
-    let to = $state(new Date().getTime())
+    let to = $state(new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1).getTime())
     const {devices} = $props()
     let _devices = devices && devices.sort((a, b) => a.name.localeCompare(b.name)).slice(0, 20)
     const trips = new DataSet()
@@ -71,7 +71,7 @@
             verticalScroll: true,
             stack: false,
             min: new Date() - 1000 * 60 * 60 * 24 * 30 * 3,
-            max: new Date()
+            max: to
         })
         timeline.on('rangechanged', ({start, end}) => {
             console.log('rangechanged', start, end)
