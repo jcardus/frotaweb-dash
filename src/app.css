@@ -13,3 +13,8 @@ body {
     background-color: #166534;
     border-color: #15803d;
 }
+
+
+.vis-time-axis .vis-grid.vis-odd {
+    background: #d1d5db;
+}
